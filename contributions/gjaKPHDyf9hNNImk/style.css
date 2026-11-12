@@ -1,0 +1,110 @@
+
+/* Style général de la page */
+body {
+    background-color: #17172b;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    text-align: center;
+}
+
+/* En-tête */
+header {
+    padding: 30px;
+}
+
+h1 {
+    color: #7cdeff;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #cccccc;
+    font-size: 18px;
+}
+
+/* Zone principale */
+main {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}
+
+/* Zone du jeu */
+#jeu {
+    background-color: #252541;
+    width: 600px;
+    padding: 30px;
+    border-radius: 15px;
+}
+/* Image à deviner */
+#image-jeu {
+    width: 200px;
+    height: auto;
+    filter: invert(100%);
+    margin-top: 20px;
+}
+
+/* Zone des couleurs */
+#couleurs {
+    margin-top: 30px;
+}
+
+#couleurs h3 {
+    margin-bottom: 20px;
+}
+
+/* Organisation des choix */
+#couleurs label {
+    display: inline-block;
+    background-color: #383858;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Couleurs des cases */
+#couleurs label.rouge {
+    background-color: #e74c3c;
+}
+
+#couleurs label.bleu {
+    background-color: #3498db;
+}
+
+#couleurs label.vert {
+    background-color: #27ae60;
+}
+
+#couleurs label.jaune-orange {
+    background-color: #f1c40f;
+    color: #222222;
+}
+
+#couleurs label.rose {
+    background-color: #e84393;
+}
+
+#couleurs label.violet {
+    background-color: #8e44ad;
+}
+
+#couleurs label.noir {
+    background-color: #111111;
+    border: 1px solid #777777;
+}
+
+#couleurs label.blanc {
+    background-color: #eeeeee;
+    color: #222222;
+}
+
+#couleurs label.marron {
+    background-color: #795548;
+}
+
+#couleurs label.gris {
+    background-color: #808080;
+}
