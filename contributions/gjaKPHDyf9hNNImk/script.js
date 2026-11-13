@@ -1,135 +1,129 @@
-const images = [
-    {
-        chemin: "images/Pomme verte.png",
-        couleurs: ["vert"]
-    },
-    {
-        chemin: "images/Goutte d'eau.png",
-        couleurs: ["bleu"]
-    },
-    {
-        chemin: "images/Coeur violet.png",
-        couleurs: ["violet"]
-    },
-    {
-        chemin: "images/Chat rouge.png",
-        couleurs: ["rouge", "blanc"]
-    },
-    {
-        chemin: "images/Pizza.png",
-        couleurs: ["jaune-orange", "rouge"]
-    },
-    {
-        chemin: "images/Soleil.png",
-        couleurs: ["rose", "violet"]
-    },
-    {
-        chemin: "images/Chocolat.png",
-        couleurs: ["blanc", "marron"]
-    },
-    {
-        chemin: "images/Fleur.png",
-        couleurs: ["rose", "vert"]
-    },
-    {
-        chemin: "images/Voiture.png",
-        couleurs: ["noir", "gris"]
-    },
-    {
-        chemin: "images/Chaussure.png",
-        couleurs: ["rouge", "blanc"]
-    }
-];
-let imageActuelle = 0;
-let partieTerminee = false;
-const affichageImage = document.getElementById("image-jeu");
-affichageImage.src = images[imageActuelle].chemin;
-const boutonValider = document.getElementById("valider");
-const affichageResultat = document.getElementById("resultat");
-const boutonRecommencer = document.getElementById("recommencer");
-let score = 0;
-let reponseValidee = false;
-const affichageScore = document.getElementById("score");
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+const scoreElement = document.getElementById("score");
+const messageElement = document.getElementById("message");
 
-console.log(boutonValider);
-function recommencerPartie() {
-    imageActuelle = 0;
+const tailleCase = 15;
+const colonnes = canvas.width / tailleCase;
+const lignes = canvas.height / tailleCase;
+
+let serpent;
+let pomme;
+let direction;
+let prochaineDirection;
+let score;
+let jeuActif = false;
+let boucle;
+
+function nouvellePomme() {
+    let position;
+    do {
+        position = {
+            x: Math.floor(Math.random() * colonnes),
+            y: Math.floor(Math.random() * lignes)
+        };
+    } while (serpent.some(partie => partie.x === position.x && partie.y === position.y));
+    return position;
+}
+
+function dessiner() {
+    ctx.fillStyle = "#101b2c";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#ff6262";
+    ctx.beginPath();
+    ctx.arc(pomme.x * tailleCase + tailleCase / 2,
+            pomme.y * tailleCase + tailleCase / 2,
+            tailleCase / 2 - 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    serpent.forEach((partie, index) => {
+        ctx.fillStyle = index === 0 ? "#a7f28d" : "#54c878";
+        ctx.fillRect(partie.x * tailleCase + 1, partie.y * tailleCase + 1,
+                     tailleCase - 2, tailleCase - 2);
+    });
+}
+
+function demarrer() {
+    clearInterval(boucle);
+    serpent = [{ x: 8, y: 8 }, { x: 7, y: 8 }, { x: 6, y: 8 }];
+    direction = { x: 1, y: 0 };
+    prochaineDirection = { x: 1, y: 0 };
     score = 0;
-    partieTerminee = false;
-    reponseValidee = false;
-    affichageImage.style.display = "inline";
-    document.getElementById("couleurs").style.display = "block";
-    boutonValider.style.display = "inline-block";
-    boutonRecommencer.hidden = true;
-    affichageScore.textContent = "Score : 0";
-    const casesCouleurs = document.querySelectorAll('#couleurs input');
-
-casesCouleurs.forEach(function(caseCouleur) {
-    caseCouleur.checked = false;
-});
-    document.getElementById("resultat").textContent = "";
-    affichageImage.src = images[imageActuelle].chemin;
+    jeuActif = true;
+    pomme = nouvellePomme();
+    scoreElement.textContent = score;
+    messageElement.textContent = "C'est parti !";
+    dessiner();
+    boucle = setInterval(deplacer, 120);
 }
-function imageSuivante() {
-    imageActuelle = imageActuelle + 1;
 
-    if (imageActuelle < images.length) {
-        affichageImage.src = images[imageActuelle].chemin;
-        reponseValidee = false;
-        document.getElementById("resultat").textContent = "";
-        const casesCouleurs = document.querySelectorAll(
-    '#couleurs input'
-);
+function terminer() {
+    jeuActif = false;
+    clearInterval(boucle);
+    messageElement.textContent = "Perdu ! Score : " + score + ". Clique sur Recommencer.";
+}
 
-casesCouleurs.forEach(function(caseCouleur) {
-    caseCouleur.checked = false;
-});
-    } else {
-        partieTerminee = true;
-        affichageImage.style.display = "none";
-        document.getElementById("couleurs").style.display = "none";
-        boutonValider.style.display = "none";
-        boutonRecommencer.hidden = false;
-        document.getElementById("resultat").textContent =
-    "Partie terminée ! Ton score est de " + score + " sur " + images.length + " !";
+function changerDirection(x, y) {
+    if (!jeuActif) {
+        if (messageElement.textContent.startsWith("Appuie")) demarrer();
+        else return;
+    }
+    if (x !== -direction.x || y !== -direction.y) {
+        prochaineDirection = { x, y };
     }
 }
-boutonValider.addEventListener("click", function() {
-    if (partieTerminee) {
-    return;
-}
-    if (reponseValidee) {
-    return;
-}
-    const couleursChoisies = document.querySelectorAll(
-        '#couleurs input:checked'
+
+function deplacer() {
+    direction = prochaineDirection;
+    const nouvelleTete = { x: serpent[0].x + direction.x, y: serpent[0].y + direction.y };
+    const mangePomme = nouvelleTete.x === pomme.x && nouvelleTete.y === pomme.y;
+    const corpsAVerifier = mangePomme ? serpent : serpent.slice(0, -1);
+
+    const toucheMur = nouvelleTete.x < 0 || nouvelleTete.x >= colonnes ||
+                      nouvelleTete.y < 0 || nouvelleTete.y >= lignes;
+    const toucheSerpent = corpsAVerifier.some(
+        partie => partie.x === nouvelleTete.x && partie.y === nouvelleTete.y
     );
 
-    console.log(couleursChoisies);
-    const bonnesCouleurs = images[imageActuelle].couleurs;
+    if (toucheMur || toucheSerpent) {
+        terminer();
+        return;
+    }
 
-const reponsesCorrectes = Array.from(couleursChoisies).map(
-    choix => choix.value
-);
-
-if (
-    bonnesCouleurs.length === reponsesCorrectes.length &&
-    bonnesCouleurs.every(couleur => reponsesCorrectes.includes(couleur))
-) {
-    affichageResultat.textContent = "Bonne réponse !";
-
-    score = score + 1;
-    affichageScore.textContent = "Score : " + score;
-
-    reponseValidee = true;
-
-} else {
-    affichageResultat.textContent = "Mauvaise réponse !";
-
-    reponseValidee = true;
+    serpent.unshift(nouvelleTete);
+    if (mangePomme) {
+        score++;
+        scoreElement.textContent = score;
+        pomme = nouvellePomme();
+        messageElement.textContent = "Bien joué ! Continue.";
+    } else {
+        serpent.pop();
+    }
+    dessiner();
 }
-imageSuivante();
+
+document.addEventListener("keydown", function(event) {
+    const touches = {
+        ArrowUp: [0, -1], ArrowDown: [0, 1],
+        ArrowLeft: [-1, 0], ArrowRight: [1, 0]
+    };
+    if (touches[event.key]) {
+        event.preventDefault();
+        changerDirection(touches[event.key][0], touches[event.key][1]);
+    }
 });
-boutonRecommencer.addEventListener("click", function() {
-    recommencerPartie();
-});
+
+document.getElementById("up").addEventListener("click", () => changerDirection(0, -1));
+document.getElementById("down").addEventListener("click", () => changerDirection(0, 1));
+document.getElementById("left").addEventListener("click", () => changerDirection(-1, 0));
+document.getElementById("right").addEventListener("click", () => changerDirection(1, 0));
+document.getElementById("restart").addEventListener("click", demarrer);
+
+// Affiche le plateau avant le début de la partie.
+serpent = [{ x: 8, y: 8 }, { x: 7, y: 8 }, { x: 6, y: 8 }];
+direction = { x: 1, y: 0 };
+prochaineDirection = { x: 1, y: 0 };
+score = 0;
+pomme = nouvellePomme();
+dessiner();

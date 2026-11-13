@@ -1,110 +1,56 @@
-
-/* Style général de la page */
-body {
-    background-color: #17172b;
-    color: white;
+/* Styles limités à la contribution Snake. */
+#snake-game {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 400px;
+    padding: 14px;
+    border-radius: 14px;
+    background: #172033;
+    color: #f4f7fb;
     font-family: Arial, sans-serif;
-    margin: 0;
     text-align: center;
 }
-
-/* En-tête */
-header {
-    padding: 30px;
-}
-
-h1 {
-    color: #7cdeff;
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-
-header p {
-    color: #cccccc;
-    font-size: 18px;
-}
-
-/* Zone principale */
-main {
+#snake-game * { box-sizing: border-box; }
+#snake-game .snake-header {
     display: flex;
-    justify-content: center;
-    padding: 30px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    max-width: 520px;
+    margin: 0 auto 10px;
+    text-align: left;
 }
-
-/* Zone du jeu */
-#jeu {
-    background-color: #252541;
-    width: 600px;
-    padding: 30px;
-    border-radius: 15px;
+#snake-game h1 { margin: 0 0 4px; color: #8be28b; font-size: 27px; }
+#snake-game .snake-header p, #snake-game .snake-help {
+    margin: 0; color: #c5cede; font-size: 12px;
 }
-/* Image à deviner */
-#image-jeu {
-    width: 200px;
-    height: auto;
-    filter: invert(100%);
-    margin-top: 20px;
+#snake-game .snake-score {
+    flex-shrink: 0; padding: 8px 11px; border-radius: 9px;
+    background: #26344d; color: white; font-weight: bold;
 }
-
-/* Zone des couleurs */
-#couleurs {
-    margin-top: 30px;
+#snake-game .snake-board-wrap {
+    width: min(100%, 360px); margin: 0 auto; padding: 5px;
+    border: 2px solid #52627b; border-radius: 9px; background: #0c1422;
 }
-
-#couleurs h3 {
-    margin-bottom: 20px;
+#snake-game canvas { display: block; width: 100%; height: auto; background: #101b2c; }
+#snake-game .snake-message {
+    min-height: 18px; margin: 8px 0; color: #a9f0a5;
+    font-size: 13px; font-weight: bold;
 }
-
-/* Organisation des choix */
-#couleurs label {
-    display: inline-block;
-    background-color: #383858;
-    padding: 10px 15px;
-    margin: 5px;
-    border-radius: 8px;
-    cursor: pointer;
+#snake-game .snake-controls { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+#snake-game .snake-controls div { display: flex; gap: 4px; }
+#snake-game button {
+    min-width: 38px; min-height: 30px; border: 0; border-radius: 7px;
+    background: #34445e; color: white; font-size: 16px; cursor: pointer;
 }
-
-/* Couleurs des cases */
-#couleurs label.rouge {
-    background-color: #e74c3c;
+#snake-game button:hover { background: #4a6384; }
+#snake-game button:focus-visible { outline: 3px solid #8be28b; outline-offset: 2px; }
+#snake-game .snake-restart {
+    margin-top: 8px; padding: 7px 15px; background: #287a48;
+    font-size: 13px; font-weight: bold;
 }
-
-#couleurs label.bleu {
-    background-color: #3498db;
-}
-
-#couleurs label.vert {
-    background-color: #27ae60;
-}
-
-#couleurs label.jaune-orange {
-    background-color: #f1c40f;
-    color: #222222;
-}
-
-#couleurs label.rose {
-    background-color: #e84393;
-}
-
-#couleurs label.violet {
-    background-color: #8e44ad;
-}
-
-#couleurs label.noir {
-    background-color: #111111;
-    border: 1px solid #777777;
-}
-
-#couleurs label.blanc {
-    background-color: #eeeeee;
-    color: #222222;
-}
-
-#couleurs label.marron {
-    background-color: #795548;
-}
-
-#couleurs label.gris {
-    background-color: #808080;
+#snake-game .snake-help { margin-top: 7px; text-align: center; }
+@media (max-width: 360px) {
+    #snake-game { padding: 10px; }
+    #snake-game .snake-header { align-items: flex-start; }
 }

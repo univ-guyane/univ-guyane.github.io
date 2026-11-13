@@ -1,87 +1,39 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COLOR REVERSE</title>
+    <title>Snake</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
-
 <body>
+    <section id="snake-game">
+        <header class="snake-header">
+            <div>
+                <h1>Snake</h1>
+                <p>Attrape les pommes sans te mordre la queue !</p>
+            </div>
+            <p class="snake-score">Score : <span id="score">0</span></p>
+        </header>
 
-    <header>
-        <h1>COLOR REVERSE</h1>
-        <p>Devine les couleurs originales des images !</p>
-    </header>
+        <div class="snake-board-wrap">
+            <canvas id="game" width="360" height="240" aria-label="Plateau du jeu Snake"></canvas>
+        </div>
 
-    <main>
-        <section id="jeu">
-            <h2>À toi de jouer !</h2>
-            <p id="score">Score : 0</p>
+        <p id="message" class="snake-message">Appuie sur une flèche pour commencer.</p>
 
-            <img id="image-jeu" src="images/Pomme verte.png" alt="Image à deviner">
+        <div class="snake-controls" aria-label="Commandes du jeu">
+            <button id="up" type="button" aria-label="Haut">▲</button>
+            <div>
+                <button id="left" type="button" aria-label="Gauche">◀</button>
+                <button id="down" type="button" aria-label="Bas">▼</button>
+                <button id="right" type="button" aria-label="Droite">▶</button>
+            </div>
+        </div>
 
-<div id="couleurs">
-    <h3>Quelles étaient les couleurs originales ?</h3>
-
-    <label class="rouge">
-        <input type="checkbox" value="rouge">
-        Rouge
-    </label>
-
-    <label class="bleu">
-        <input type="checkbox" value="bleu">
-        Bleu
-    </label>
-
-    <label class="vert">
-        <input type="checkbox" value="vert">
-        Vert
-    </label>
-
-    <label class="jaune-orange">
-        <input type="checkbox" value="jaune-orange">
-        Jaune / Orange
-    </label>
-
-    <label class="rose">
-        <input type="checkbox" value="rose">
-        Rose
-    </label>
-
-    <label class="violet">
-        <input type="checkbox" value="violet">
-        Violet
-    </label>
-
-    <label class="noir">
-        <input type="checkbox" value="noir">
-        Noir
-    </label>
-
-    <label class="blanc">
-        <input type="checkbox" value="blanc">
-        Blanc
-    </label>
-
-    <label class="marron">
-        <input type="checkbox" value="marron">
-        Marron
-    </label>
-
-    <label class="gris">
-        <input type="checkbox" value="gris">
-        Gris
-    </label>
-</div>
-<button id="valider">Valider ma réponse</button>
-<button id="recommencer" hidden>Recommencer</button>
-<p id="resultat"></p>
-
-        </section>
-    </main>
-
+        <button id="restart" class="snake-restart" type="button">Recommencer</button>
+        <p class="snake-help">Commandes : flèches du clavier ou boutons ci-dessus.</p>
+    </section>
 </body>
 </html>
