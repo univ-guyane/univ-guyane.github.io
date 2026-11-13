@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+ 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Projets de Henry D'joston, étudiant en licence informatique.">
+  <title>Projets — Henry D'joston</title>
+  
+</head>
+<style>
+:root {
+      --bg: navajowhite;
+      --surface: #fff8ec;
+      --text: #2b2118;
+      --muted: #6b5a47;
+      --line: #c9a46a;
+      --accent: aqua;
+      --radius: 10px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .container {
+      width: min(720px, 92%);
+      margin-inline: auto;
+    }
+
+    /* ---------- Navigation ---------- */
+    .site-header {
+      border-bottom: 2px solid var(--line);
+      background: var(--surface);
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px 16px;
+      padding-block: 14px;
+    }
+
+    .logo {
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      text-decoration: none;
+    }
+    
+    .nav-links a:hover {
+      background: var(--bg);
+    }
+
+    .nav-links a.active {
+      background: var(--accent);
+      font-weight: bold;
+    }
+
+    /* ---------- Contenu principal ---------- */
+    main {
+      flex: 1;
+      padding-block: 48px;
+    }
+
+    .hero {
+      width: 100%;
+      margin-bottom: 24px;
+      padding: 40px 32px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 4px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.9rem, 5vw, 2.6rem);
+      line-height: 1.15;
+    }
+
+    .hero h2 {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+    }
+
+    .hero h3 {
+      margin: 0 0 4px;
+      font-size: 1.1rem;
+    }
+
+    .accent {
+      color: #0a7f7f;
+    }
+
+    .intro {
+      margin: 0 0 8px;
+      color: var(--muted);
+    }
+
+    .sub {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 2px solid var(--line);
+    }
+
+    /* ---------- Formulaires ---------- */
+    label {
+      display: block;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      font: inherit;
+      font-size: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--text);
+    }
+
+    input:focus {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 12px 20px;
+      border: 2px solid var(--accent);
+      border-radius: var(--radius);
+      background: var(--accent);
+      color: var(--text);
+      font: inherit;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 rgba(43, 33, 24, 0.15);
+    }
+
+    #result,
+    #birthResult {
+      margin-top: 18px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .error {
+      margin-top: 12px;
+      padding: 8px 12px;
+      color: #b00020;
+      background: #fde7e9;
+      border: 1px solid #b00020;
+      border-radius: 6px;
+    }
+
+    .error:empty {
+      display: none;
+    }
+
+    /* ---------- Pied de page ---------- */
+    .site-footer {
+      border-top: 2px solid var(--line);
+      padding-block: 18px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .site-footer .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 480px) {
+      .hero {
+        padding: 28px 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      button {
+        transition: none;
+      }
+    }
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+<body>
+
+  <header class="site-header">
+    <nav class="container nav" aria-label="Navigation principale">
+      <a href="index.html" class="logo">HENRY</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="projet.html" class="active" aria-current="page">Projets</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero" aria-labelledby="titre">
+      <span class="tag">▶ Projets</span>
+
+      <h1 id="titre">Mes <span class="accent">projet</span></h1>
+
+      <article>
+        <h2>Calculateur de dates</h2>
+        <p class="intro">
+          Outil qui calcule le nombre de jours entre deux dates, puis le jour de la semaine
+          et l'âge à partir d'une date de naissance.
+        </p>
+
+        <h3>Nombre de jours entre deux dates</h3>
+
+        <label for="startDate">Date de début</label>
+        <input id="startDate" type="date">
+
+        <label for="endDate">Date de fin</label>
+        <input id="endDate" type="date">
+
+        <button id="calculateBtn" type="button">Calculer</button>
+
+        <p id="error" class="error"></p>
+        <div id="result"></div>
+
+        <section class="sub">
+          <h3>Jour de naissance et âge</h3>
+
+          <label for="birthDate">Date de naissance</label>
+          <input id="birthDate" type="date">
+
+          <button id="birthBtn" type="button">Afficher le jour et l'âge</button>
+
+          <p id="birthError" class="error"></p>
+          <div id="birthResult"></div>
+        </section>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© 2026 Henry D'joston</span>
+      <a href="https://github.com/VOTRE-PSEUDO" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    // ----- Éléments de la page -----
+    const startInput = document.getElementById("startDate");
+    const endInput = document.getElementById("endDate");
+    const calculateBtn = document.getElementById("calculateBtn");
+    const resultDiv = document.getElementById("result");
+    const errorP = document.getElementById("error");
+
+    const birthInput = document.getElementById("birthDate");
+    const birthBtn = document.getElementById("birthBtn");
+    const birthResultDiv = document.getElementById("birthResult");
+    const birthErrorP = document.getElementById("birthError");
+
+    const MS_PER_DAY = 1000 * 60 * 60 * 24;
+    const JOURS = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+
+    // Transforme une date "AAAA-MM-JJ" en objet Date à minuit, heure locale
+    function parseDate(text) {
+      const [year, month, day] = text.split("-").map(Number);
+      // Le mois commence à 0 en JavaScript, d'où le "- 1"
+      return new Date(year, month - 1, day);
+    }
+
+    // Retourne le nombre de jours entre deux dates (peut être négatif)
+    function daysBetween(startDate, endDate) {
+      const difference = endDate - startDate;
+      // Math.round corrige l'effet de l'heure d'été
+      return Math.round(difference / MS_PER_DAY);
+    }
+
+    // Construit le message à afficher selon le résultat
+    function buildMessage(days) {
+      if (days > 0) {
+        return "Il y a " + days + " jour(s) entre ces deux dates.";
+      }
+      if (days < 0) {
+        return "Il y a " + Math.abs(days) + " jour(s) entre ces deux dates (la date de fin est antérieure).";
+      }
+      return "Les deux dates sont identiques.";
+    }
+
+    // Calcul du nombre de jours entre deux dates (au clic sur "Calculer")
+    function handleCalculate() {
+      errorP.textContent = "";
+      resultDiv.textContent = "";
+
+      const startValue = startInput.value;
+      const endValue = endInput.value;
+
+      if (startValue === "" || endValue === "") {
+        errorP.textContent = "Veuillez remplir les deux dates.";
+        return;
+      }
+
+      const startDate = parseDate(startValue);
+      const endDate = parseDate(endValue);
+      const days = daysBetween(startDate, endDate);
+
+      resultDiv.textContent = buildMessage(days);
+    }
+
+    // Calcul du jour de la semaine de naissance et de l'âge (au clic sur le bouton)
+    function handleBirth() {
+      birthErrorP.textContent = "";
+      birthResultDiv.textContent = "";
+
+      const value = birthInput.value;
+
+      if (value === "") {
+        birthErrorP.textContent = "Veuillez saisir une date de naissance.";
+        return;
+      }
+
+      const birthDate = parseDate(value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (birthDate > today) {
+        birthErrorP.textContent = "La date de naissance ne peut pas être dans le futur.";
+        return;
+      }
+
+      const jourSemaine = JOURS[birthDate.getDay()];
+
+      // Calcul de l'âge en années révolues
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const moisNaissance = birthDate.getMonth();
+      const jourNaissance = birthDate.getDate();
+      if (today.getMonth() < moisNaissance ||
+          (today.getMonth() === moisNaissance && today.getDate() < jourNaissance)) {
+        age--;
+      }
+
+      const jour = String(jourNaissance).padStart(2, "0");
+      const mois = String(moisNaissance + 1).padStart(2, "0");
+      birthResultDiv.textContent =
+        "Né(e) le " + jour + "/" + mois + "/" + birthDate.getFullYear() +
+        ", un " + jourSemaine + ". Âge : " + age + " ans.";
+    }
+
+    calculateBtn.addEventListener("click", handleCalculate);
+    birthBtn.addEventListener("click", handleBirth);
+  </script>
+</body>
+</html>
