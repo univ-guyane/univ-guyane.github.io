@@ -1,0 +1,68 @@
+body {
+    background-color: #121212;
+    color: white;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Style de l'écran de menu */
+#menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 420px;
+}
+
+#menu h1 {
+    font-size: 2.5rem;
+    color: #00d2d3;
+    margin-bottom: 10px;
+}
+
+#menu p {
+    color: #b2bec3;
+    margin-bottom: 20px;
+}
+
+/* Bouton Play stylisé */
+#btnPlay {
+    background-color: #00d2d3;
+    color: #121212;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#btnPlay:hover {
+    background-color: #01a3a4;
+}
+
+/* Le score en jeu */
+#ui {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+/* Zone du canvas (respecte la hauteur maximale de 420px) */
+canvas {
+    background-color: #1a1a24;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 800px;
+    height: 420px;
+}
+
+/* Classe utilitaire pour cacher les éléments */
+.cache {
+    display: none !important;
+}
