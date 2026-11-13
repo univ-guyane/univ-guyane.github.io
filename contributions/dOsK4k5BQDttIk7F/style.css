@@ -1,0 +1,25 @@
+/* Forêt pixel art : mise en page (scène de 420 px max) et thème jour/nuit (variables CSS) */
+:root{--bg:#24381c;--panel:#fff8e1;--ink:#2b3a1f;--acc:#4caf50;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#04061a;--panel:#141a3a;--ink:#e8f0ff;--acc:#7cf29a}}
+:root[data-theme="dark"]{--bg:#04061a;--panel:#141a3a;--ink:#e8f0ff;--acc:#7cf29a}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{height:100%;margin:0;display:flex;align-items:center;overflow:hidden;user-select:none;-webkit-user-select:none;background:var(--bg);color:var(--ink);font:10px/1.7 'Press Start 2P',monospace}
+/* La scène fait 420 px de haut au maximum */
+#frame{position:relative;width:100%;height:min(420px,100%)}
+/* #stage défile de gauche à droite ; le canvas reste collé dedans (sticky) et suit la caméra */
+#stage{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-color:var(--ink) var(--panel)}
+#stage:focus-visible{outline:3px solid var(--acc);outline-offset:-3px}
+#world{height:100%}
+canvas{display:block;position:sticky;left:0;image-rendering:pixelated;cursor:crosshair;touch-action:manipulation}
+#ui{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:min(92%,420px);box-sizing:border-box;padding:10px 12px;text-align:center;pointer-events:none;background:var(--panel);border:4px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}
+h1{margin:0 0 8px;font-size:11px;font-weight:400}
+p{margin:0}
+#bar{display:grid;grid-template-columns:repeat(20,1fr);gap:2px;padding:3px;border:3px solid var(--ink)}
+#bar i{height:12px}
+#bar i.on{background:var(--acc)}
+#row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:6px 0 4px}
+#msg{font-size:8px;text-align:right}
+small{font-size:8px;opacity:.85}
+button{position:absolute;right:12px;bottom:24px;font:inherit;color:var(--ink);background:var(--panel);border:4px solid var(--ink);box-shadow:3px 3px 0 var(--ink);padding:8px 10px;cursor:pointer}
+button:active{transform:translate(3px,3px);box-shadow:none}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:3px}

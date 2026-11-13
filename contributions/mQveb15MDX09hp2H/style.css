@@ -1,0 +1,499 @@
+* { box-sizing: border-box; }
+
+html, body { margin: 0; height: 100%; overflow: hidden; }
+
+body {
+  font-family: "Trebuchet MS", system-ui, sans-serif;
+  background: #2a211c;
+  color: #eee;
+}
+
+/* ===== La maison : des chambres côte à côte ===== */
+.maison {
+  display: flex;
+  gap: 10px;                     /* les murs entre les chambres */
+  height: 100vh;
+  padding: 0 10px;
+  overflow-x: auto;              /* défile si l'écran est trop étroit */
+  background: #2a211c;           /* couleur des murs */
+  scrollbar-width: thin;
+}
+
+.chambre {
+  position: relative;
+  flex: 1 0 calc(380px * var(--k, 1));
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+  background: #06070b;
+  border-bottom: 8px solid #5a3d26;   /* plancher */
+}
+
+.plaque {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  z-index: 5;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #ffffff55;
+}
+
+/* Chambres à construire */
+.vide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  background: linear-gradient(#0d0f16, #12141c);
+}
+.porte {
+  position: relative;
+  width: calc(90px * var(--k, 1));
+  height: calc(170px * var(--k, 1));
+  border-radius: 6px 6px 0 0;
+  background: repeating-linear-gradient(90deg, #4a3322 0 18px, #3f2b1c 18px 20px);
+  box-shadow: inset 0 0 0 4px #2e1f14;
+}
+.poignee-porte {
+  position: absolute;
+  right: 12%;
+  top: 52%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d9b25a;
+}
+.bientot {
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  color: #ffffff40;
+}
+
+.piece {
+  transition: background .25s;
+}
+.piece.allumee {
+  background: radial-gradient(ellipse 60% 75% at 50% 30%, #4a3f22, #1a160d 60%, #0b0a07);
+}
+
+/* Scène à taille fixe, mise à l'échelle selon la hauteur dispo */
+.stage {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 420px;
+  height: 400px;
+  margin-left: -210px;
+  transform: scale(var(--k, 1));
+  transform-origin: top center;
+}
+
+/* Lampe */
+.lampe {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 120px;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+.ampoule { fill: #333; transition: fill .2s; }
+.allumee .ampoule { fill: #fff6c4; filter: drop-shadow(0 0 10px #ffd84d); }
+
+.cone {
+  position: absolute;
+  top: 96px;
+  left: 50%;
+  width: 420px;
+  height: 300px;
+  transform: translateX(-50%);
+  clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%);
+  background: linear-gradient(#fff3b0aa, #fff3b000 90%);
+  opacity: 0;
+  transition: opacity .2s;
+  pointer-events: none;
+}
+.allumee .cone { opacity: 1; }
+
+/* Créature */
+.scene {
+  position: absolute;
+  top: 120px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+.creature { width: 160px; height: 160px; }
+.creature svg { width: 100%; height: 100%; overflow: visible; }
+.creature .corps { transition: opacity .3s; }
+.piece:not(.allumee) .corps { opacity: 0; }
+
+.creature .blanc { fill: #fff; stroke: #222; stroke-width: 1.5; transition: fill .3s; }
+.creature .pupille { fill: #111; transition: fill .3s; }
+.piece:not(.allumee) .blanc { fill: transparent; stroke: transparent; }
+.piece:not(.allumee) .pupille { fill: #f5ff4d; filter: drop-shadow(0 0 4px #f5ff4d); }
+
+.apparait { animation: pop .5s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes pop {
+  from { transform: scale(.2) translateY(40px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+.carte {
+  margin: 4px 0 0;
+  padding: 6px 14px;
+  border-radius: 10px;
+  background: #000a;
+  border: 1px solid #ffd84d55;
+  font-size: 13px;
+  text-align: center;
+  line-height: 1.45;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.allumee .carte { opacity: 1; }
+.num { color: #aaa; }
+.shiny {
+  padding: 0 6px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #ffd84d, #ff8ad8, #7ad8ff);
+  color: #222;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* Corde */
+.corde {
+  position: absolute;
+  top: 0;
+  left: calc(50% + 70px);
+  width: 30px;
+  height: 200px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: grab;
+  touch-action: none;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.fil { width: 2px; flex: 1; background: #bbb; }
+/* La corde s'étire quand on la tire */
+.corde { --tire: 0px; }
+.corde .fil { margin-bottom: calc(-1 * var(--tire)); }
+.corde .poignee { transform: translateY(var(--tire)); transition: transform .25s cubic-bezier(.3, 1.8, .5, 1); }
+.corde.en-main .poignee { transition: none; }
+.corde .fil { transition: margin .25s cubic-bezier(.3, 1.8, .5, 1); }
+.corde.en-main .fil { transition: none; }
+.poignee {
+  width: 14px;
+  height: 24px;
+  border-radius: 7px;
+  background: linear-gradient(#e8c07a, #a8762c);
+  box-shadow: 0 2px 6px #0008;
+}
+/* zone cliquable plus large */
+.corde::after { content: ""; position: absolute; inset: 0 -12px -10px; }
+.corde:active, .corde.en-main { cursor: grabbing; }
+.corde:hover .poignee { filter: brightness(1.2); }
+.corde:focus-visible { outline: 2px dashed #ffd84d; outline-offset: 4px; }
+.tiree { animation: tirer .35s ease-out; }
+@keyframes tirer {
+  40% { transform: translateY(28px); }
+  70% { transform: translateY(-6px); }
+}
+
+/* Coupure */
+.clignote .cone, .clignote .ampoule, .clignote .corps { animation: clignote .7s steps(1); }
+@keyframes clignote {
+  0%, 30%, 60% { opacity: 0; }
+  15%, 45% { opacity: 1; }
+}
+
+.indice {
+  position: absolute;
+  top: 180px;
+  left: calc(50% + 102px);
+  white-space: nowrap;
+  margin: 0;
+  font-size: 13px;
+  color: #888;
+  animation: respire 2s infinite;
+}
+@keyframes respire { 50% { opacity: .4; } }
+
+.compteur {
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  margin: 0;
+  font-size: 12px;
+  color: #777;
+}
+.compteur b { color: #ffd84d; }
+
+/* Créature rare (image) */
+.creature img.rare {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;   /* garde les pixels nets */
+  transition: opacity .3s;
+  filter: drop-shadow(0 0 12px #ffd84d88);
+}
+
+/* ===== Chambre 2 : le bouton qui fuit ===== */
+.fuite {
+  background: radial-gradient(ellipse at 50% 40%, #1b2440, #0b0e18 70%);
+}
+.fuite-titre {
+  position: absolute;
+  top: calc(26px * var(--k, 1));
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  font-size: calc(15px * var(--k, 1));
+  color: #ffffff99;
+}
+.fuyard {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  padding: calc(10px * var(--k, 1)) calc(18px * var(--k, 1));
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(#ff5f6d, #d7263d);
+  color: #fff;
+  font: bold calc(15px * var(--k, 1)) "Trebuchet MS", system-ui, sans-serif;
+  box-shadow: 0 5px 0 #8e1426, 0 8px 18px #0008;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: left .15s ease-out, top .15s ease-out, transform .2s;
+  z-index: 2;
+}
+.fuyard:active { transform: translateY(3px); box-shadow: 0 2px 0 #8e1426; }
+/* il fatigue : plus lent, il transpire */
+.fuite[data-fatigue="1"] .fuyard { transition-duration: .25s; }
+.fuite[data-fatigue="2"] .fuyard { transition-duration: .4s; background: linear-gradient(#ff8a5c, #d7563d); }
+.fuite[data-fatigue="3"] .fuyard { transition-duration: .6s; background: linear-gradient(#ffb36b, #c9733d); animation: halete .6s infinite; }
+@keyframes halete { 50% { transform: scale(.94, 1.04); } }
+
+.fuyard.casse { opacity: 0; transform: scale(2.5) rotate(20deg); transition: opacity .2s, transform .2s; pointer-events: none; }
+
+.bulle {
+  position: absolute;
+  max-width: 150px;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: #fff;
+  color: #222;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 3;
+  pointer-events: none;
+  animation: bulle .2s ease-out;
+}
+@keyframes bulle { from { transform: scale(.5); opacity: 0; } }
+
+.eclat {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 4;
+  animation: eclat .9s ease-out forwards;
+}
+@keyframes eclat {
+  to { transform: translate(var(--dx), var(--dy)) rotate(540deg) scale(.3); opacity: 0; }
+}
+
+.boum {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 900 calc(64px * var(--k, 1)) Impact, "Arial Black", sans-serif;
+  color: #ffd84d;
+  text-shadow: 0 0 20px #ff5f3c, 4px 4px 0 #d7263d;
+  z-index: 5;
+  pointer-events: none;
+  animation: boum .9s ease-out;
+}
+.boum[hidden] { display: none; }
+@keyframes boum {
+  from { transform: scale(.2) rotate(-10deg); }
+  30% { transform: scale(1.2) rotate(4deg); }
+  to { transform: scale(1); opacity: 0; }
+}
+.flash { animation: flash .4s; }
+@keyframes flash { 0% { background: #fff; } 100% { } }
+
+/* ===== Chambre 3 : la radio ===== */
+.radio-salle {
+  --signal: 0;
+  background: linear-gradient(#141019, #0f0c12 70%);
+}
+.radio {
+  position: absolute;
+  left: 50%;
+  top: calc(70px * var(--k, 1));
+  width: calc(290px * var(--k, 1));
+  transform: translateX(-50%);
+  padding: calc(14px * var(--k, 1));
+  border-radius: 18px 18px 10px 10px;
+  background: linear-gradient(#8b5a35, #6b4226);
+  box-shadow: inset 0 0 0 3px #4a2c17, 0 10px 24px #000a;
+  z-index: 2;
+}
+.radio-haut { display: flex; gap: calc(10px * var(--k, 1)); }
+.hp {
+  flex: 0 0 calc(90px * var(--k, 1));
+  height: calc(90px * var(--k, 1));
+  border-radius: 10px;
+  background: radial-gradient(circle, #2a1a10 2px, #c9b48a 2.5px) 0 0 / 7px 7px;
+  box-shadow: inset 0 0 0 3px #4a2c17;
+}
+.radio-on .hp { animation: vibre .15s infinite; }
+@keyframes vibre { 50% { transform: scale(calc(1 + var(--signal) * .015)); } }
+
+.cadran {
+  position: relative;
+  flex: 1;
+  border-radius: 8px;
+  background: linear-gradient(#f3e6c4, #d9c79c);
+  box-shadow: inset 0 0 0 3px #4a2c17;
+  overflow: hidden;
+}
+.radio-on .cadran { background: linear-gradient(#fff4cf, #f0d58c); box-shadow: inset 0 0 0 3px #4a2c17, inset 0 0 20px #ffb84d; }
+.graduations {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 30%;
+  display: flex;
+  justify-content: space-between;
+  font: bold calc(10px * var(--k, 1)) monospace;
+  color: #4a2c17;
+}
+.aiguille {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  width: 2px;
+  margin-left: -1px;
+  background: #d7263d;
+  pointer-events: none;
+}
+/* l'aiguille se déplace sur 84 % du cadran */
+.cadran .aiguille { left: 8%; }
+.freq {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 8%;
+  width: 84%;
+  margin: 0;
+  accent-color: #6b4226;
+  cursor: pointer;
+}
+
+.radio-bas {
+  display: flex;
+  align-items: center;
+  gap: calc(10px * var(--k, 1));
+  margin-top: calc(10px * var(--k, 1));
+}
+.power {
+  width: calc(32px * var(--k, 1));
+  height: calc(32px * var(--k, 1));
+  border: none;
+  border-radius: 50%;
+  background: #3a2414;
+  color: #c9b48a;
+  font-size: calc(15px * var(--k, 1));
+  cursor: pointer;
+  box-shadow: 0 3px 0 #22140a;
+}
+.radio-on .power { color: #7dff9a; text-shadow: 0 0 6px #7dff9a; }
+.power:active { transform: translateY(2px); box-shadow: 0 1px 0 #22140a; }
+.ecran-freq {
+  flex: 1;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #1a120c;
+  color: #ffb84d;
+  font: bold calc(13px * var(--k, 1)) monospace;
+  text-align: center;
+}
+.voyant {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #7dff9a;
+  box-shadow: 0 0 8px #7dff9a;
+  opacity: .1;
+}
+.bouton-rond {
+  width: calc(34px * var(--k, 1));
+  height: calc(34px * var(--k, 1));
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #3a2414, #6b4226, #3a2414, #6b4226, #3a2414);
+  box-shadow: 0 3px 0 #22140a;
+  position: relative;
+  transition: transform .1s;
+}
+.bouton-rond::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 3px;
+  width: 3px;
+  height: 30%;
+  margin-left: -1.5px;
+  background: #c9b48a;
+  border-radius: 2px;
+}
+
+.table {
+  position: absolute;
+  left: 50%;
+  top: calc(250px * var(--k, 1));
+  width: calc(330px * var(--k, 1));
+  height: calc(12px * var(--k, 1));
+  transform: translateX(-50%);
+  border-radius: 4px;
+  background: #5a3d26;
+  box-shadow: 0 6px 12px #0008;
+}
+
+.ondes {
+  position: absolute;
+  left: 50%;
+  top: calc(275px * var(--k, 1));
+  width: 86%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #0008;
+  font-size: calc(12.5px * var(--k, 1));
+  line-height: 1.45;
+  text-align: center;
+  color: #e8dcc0;
+}
+.ondes b { color: #ffb84d; }
+.gresille { color: #888; letter-spacing: .15em; animation: gresille .3s steps(2) infinite; }
+@keyframes gresille { 50% { opacity: .4; } }

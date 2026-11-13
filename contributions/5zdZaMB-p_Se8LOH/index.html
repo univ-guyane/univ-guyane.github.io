@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1120">
+    <title>Target Shooter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <header class="header">
+            <p class="eyebrow">ARCADE GAME</p>
+            <h1>TARGET <span>SHOOTER</span></h1>
+            <p class="subtitle">Teste tes réflexes et bats ton record !</p>
+        </header>
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <span class="stat-label">SCORE</span>
+                <span class="stat-value" id="score">0</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">TEMPS</span>
+                <span class="stat-value" id="timer">30</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">TOUCHES</span>
+                <span class="stat-value" id="hits">0</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">RATÉS</span>
+                <span class="stat-value" id="misses">0</span>
+            </div>
+
+        </section>
+
+        <section class="game-panel">
+
+            <div class="game-topbar">
+                <span class="game-status" id="game-status">
+                    <span class="status-dot"></span>
+                    EN ATTENTE
+                </span>
+
+                <span class="best-score">
+                    RECORD : <strong id="best-score">0</strong>
+                </span>
+            </div>
+
+            <div id="game-area">
+
+                <div id="start-screen" class="overlay">
+                    <div class="overlay-content">
+                        <div class="target-icon">◎</div>
+                        <h2>Prêt à jouer ?</h2>
+                        <p>Tu as 30 secondes pour toucher<br>le maximum de cibles.</p>
+                        <button id="start-button" class="main-button">
+                            COMMENCER
+                        </button>
+                    </div>
+                </div>
+
+                <div id="end-screen" class="overlay hidden">
+                    <div class="overlay-content">
+                        <div class="target-icon">★</div>
+                        <h2>Partie terminée !</h2>
+                        <p class="final-score">
+                            SCORE FINAL : <strong id="final-score">0</strong>
+                        </p>
+
+                        <div class="final-stats">
+                            <div>
+                                <span>Précision</span>
+                                <strong id="final-accuracy">0%</strong>
+                            </div>
+
+                            <div>
+                                <span>Vitesse moyenne</span>
+                                <strong id="final-speed">0</strong>
+                            </div>
+
+                            <div>
+                                <span>Meilleur score</span>
+                                <strong id="final-best">0</strong>
+                            </div>
+                        </div>
+
+                        <button id="restart-button" class="main-button">
+                            REJOUER
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+        </section>
+
+        <section class="performance">
+
+            <div class="performance-card">
+                <span class="performance-icon">◎</span>
+                <div>
+                    <span class="stat-label">PRÉCISION</span>
+                    <strong id="accuracy">0%</strong>
+                </div>
+            </div>
+
+            <div class="performance-card">
+                <span class="performance-icon">⚡</span>
+                <div>
+                    <span class="stat-label">VITESSE MOYENNE</span>
+                    <strong id="speed">0 <small>cible/s</small></strong>
+                </div>
+            </div>
+
+            <div class="performance-card">
+                <span class="performance-icon">★</span>
+                <div>
+                    <span class="stat-label">MEILLEUR SCORE</span>
+                    <strong id="record-display">0</strong>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="controls">
+            <button id="sound-button" class="secondary-button" aria-pressed="true">
+                🔊 Son activé
+            </button>
+            <p>CLIQUE SUR LES CIBLES POUR MARQUER DES POINTS</p>
+        </div>
+
+        <footer>
+            <p> TARGET SHOOTER <span>•</span> Projet personnel L1</p>
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

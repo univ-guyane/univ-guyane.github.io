@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le savais-tu ?</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="carte">
+      <button id="theme" class="theme" type="button">Mode sombre</button>
+      <h1>Le savais-tu ?</h1>
+      <p id="fact">Appuie sur le bouton pour découvrir un fun fact !</p>
+      <button id="btn" type="button">Surprends-moi !</button>
+    </div>
+
+    <script>
+      const facts = [
+        "Le centre spatial guyanais se trouve à Kourou, près de l'équateur, ce qui aide les fusées à gagner de la vitesse.",
+        "Le premier bug informatique était un vrai insecte : un papillon de nuit coincé dans un ordinateur en 1947.",
+        "Le miel ne périme jamais : on a retrouvé des pots comestibles vieux de 3 000 ans.",
+        "Le paresseux ne descend de son arbre qu'environ une fois par semaine.",
+        "Le premier site web de l'histoire a été mis en ligne en 1991.",
+        "Les pieuvres ont trois cœurs.",
+        "La Guyane est couverte à plus de 90 % par la forêt amazonienne.",
+        "La tour Eiffel peut grandir d'environ 15 cm en été, car le métal se dilate avec la chaleur.",
+        "Le Japon compte plus de 6 800 îles.",
+        "Les wombats font des crottes en forme de cubes.",
+        "Le Vatican est le plus petit pays du monde : moins d'un demi-kilomètre carré.",
+        "La Russie s'étend sur 11 fuseaux horaires.",
+        "Sur Vénus, un jour dure plus longtemps qu'une année.",
+        "Le Sahara était une région verte, avec des lacs et de la végétation, il y a plus de 5 000 ans.",
+        "La Bolivie a deux capitales : La Paz et Sucre.",
+        "Les koalas ont des empreintes digitales presque identiques à celles des humains.",
+        "L'université d'Oxford existe depuis avant l'Empire aztèque.",
+        "Le tout premier SMS a été envoyé en 1992 et disait « Merry Christmas ».",
+        "L'Everest grandit d'environ 4 millimètres par an.",
+        "Les abeilles peuvent reconnaître des visages humains.",
+        "Il y a plus d'étoiles dans l'univers observable que de grains de sable sur toutes les plages de la Terre.",
+        "Botaniquement, la banane est une baie, alors que la fraise n'en est pas une.",
+        "La Grande Muraille de Chine n'est pas visible à l'œil nu depuis l'espace.",
+        "Les flamants roses sont roses à cause des pigments présents dans leur alimentation.",
+        "Selon certains scientifiques, il pourrait pleuvoir des diamants sur Jupiter et Saturne.",
+        "Le Canada possède la plus longue côte du monde.",
+        "Le plus vieil arbre vivant connu, un pin, a plus de 4 800 ans.",
+        "Les girafes ont sept vertèbres au cou, comme les humains.",
+        "Le mot « robot » vient d'une pièce de théâtre tchèque de 1920.",
+        "Le premier nom de domaine en .com, symbolics.com, a été enregistré en 1985.",
+        "Le tout premier e-mail a été envoyé en 1971 par Ray Tomlinson.",
+        "Le QR code a été inventé au Japon en 1994.",
+        "Le mot « bit » est la contraction de « binary digit » (chiffre binaire).",
+        "La Lune s'éloigne de la Terre d'environ 3,8 cm par an.",
+        "La lumière du Soleil met environ 8 minutes pour arriver jusqu'à nous.",
+        "Il existe plus de 7 000 langues parlées dans le monde.",
+        "La Papouasie-Nouvelle-Guinée compte à elle seule plus de 800 langues.",
+        "L'Islande n'a pas d'armée permanente.",
+        "L'Australie est plus large que la Lune : environ 4 000 km contre 3 474 km.",
+        "Les dauphins dorment avec une moitié du cerveau à la fois.",
+        "Le colibri est l'un des rares oiseaux capables de voler en arrière.",
+        "Un éclair peut être plus chaud que la surface du Soleil.",
+        "Le jaguar possède l'une des morsures les plus puissantes parmi les grands félins.",
+        "Le toucan utilise son grand bec pour réguler sa température corporelle.",
+        "Le jeu vidéo Pong est sorti en 1972.",
+        "Le Rubik's Cube a été inventé en 1974 par le Hongrois Ernő Rubik.",
+        "L'Amazonie abrite environ 10 % des espèces animales et végétales connues.",
+        "Le cerveau humain compte environ 86 milliards de neurones.",
+        "Un bébé naît avec environ 300 os, alors qu'un adulte en a 206.",
+        "Le Soleil représente environ 99,8 % de la masse du système solaire.",
+        "Le plus grand désert du monde est l'Antarctique.",
+        "La température la plus basse jamais mesurée sur Terre est de -89,2 °C, en Antarctique en 1983.",
+        "La Guyane est le seul territoire de l'Union européenne situé en Amérique du Sud.",
+        "Le cœur d'une baleine bleue peut peser environ 180 kg.",
+        "Presque tous les manchots vivent dans l'hémisphère Sud.",
+        "Un nuage de beau temps peut peser environ 500 tonnes."
+      ];
+
+      const texte = document.getElementById("fact");
+      const bouton = document.getElementById("btn");
+      let dernier = -1;
+
+      bouton.addEventListener("click", () => {
+        let i;
+        do {
+          i = Math.floor(Math.random() * facts.length);
+        } while (i === dernier);
+        dernier = i;
+        texte.textContent = facts[i];
+      });
+
+      const racine = document.documentElement;
+      const boutonTheme = document.getElementById("theme");
+
+      function appliquerTheme(theme) {
+        racine.setAttribute("data-theme", theme);
+        boutonTheme.textContent = theme === "dark" ? "Mode clair" : "Mode sombre";
+      }
+
+      const prefereSombre = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      appliquerTheme(prefereSombre ? "dark" : "light");
+
+      boutonTheme.addEventListener("click", () => {
+        const actuel = racine.getAttribute("data-theme");
+        appliquerTheme(actuel === "dark" ? "light" : "dark");
+      });
+    </script>
+  </body>
+</html>

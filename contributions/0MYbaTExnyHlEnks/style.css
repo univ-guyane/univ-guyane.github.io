@@ -1,0 +1,13 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #2f6fd0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+img {
+  height: 100%;
+  image-rendering: pixelated;
+}
