@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <section id="snake-game">
+        <header class="snake-header">
+            <div>
+                <h1>Snake</h1>
+                <p>Attrape les pommes sans te mordre la queue !</p>
+            </div>
+            <p class="snake-score">Score : <span id="score">0</span></p>
+        </header>
+
+        <div class="snake-board-wrap">
+            <canvas id="game" width="360" height="240" aria-label="Plateau du jeu Snake"></canvas>
+        </div>
+
+        <p id="message" class="snake-message">Appuie sur une flèche pour commencer.</p>
+
+        <div class="snake-controls" aria-label="Commandes du jeu">
+            <button id="up" type="button" aria-label="Haut">▲</button>
+            <div>
+                <button id="left" type="button" aria-label="Gauche">◀</button>
+                <button id="down" type="button" aria-label="Bas">▼</button>
+                <button id="right" type="button" aria-label="Droite">▶</button>
+            </div>
+        </div>
+
+        <button id="restart" class="snake-restart" type="button">Recommencer</button>
+        <p class="snake-help">Commandes : flèches du clavier ou boutons ci-dessus.</p>
+    </section>
+</body>
+</html>
