@@ -1,149 +1,253 @@
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contribution — Widget météo</title>
-    <style>
-      .mtw *, .mtw *::before, .mtw *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    overflow: hidden;
+    background: #02040c;
+    font-family: "Segoe UI", sans-serif;
+    color: #cfd6ff;
+  }
+  #stage { position: relative; width: 100%; height: 420px; }
+  canvas { display: block; width: 100%; height: 420px; }
 
-      .mtw {
-        all: initial;
-        display: block;
-        font-family: "Segoe UI", system-ui, sans-serif;
-        height: 420px;
-        overflow-y: auto;
-        padding: 24px;
-        color: #e8ecf4;
-        background:
-          radial-gradient(600px 300px at 20% -10%, rgba(125, 211, 252, 0.25), transparent 60%),
-          radial-gradient(500px 300px at 80% 10%, rgba(167, 139, 250, 0.2), transparent 55%),
-          linear-gradient(180deg, #0b1020, #101a33);
-      }
+  #hud {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    display: flex;
+    gap: 14px;
+    font-size: 12px;
+    background: rgba(10, 14, 30, 0.7);
+    border: 1px solid rgba(120, 100, 255, 0.3);
+    border-radius: 8px;
+    padding: 6px 10px;
+    pointer-events: none;
+  }
+  #hud b { color: #a78bff; }
 
-      .mtw h2 {
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
-        color: #7dd3fc;
-        margin-bottom: 16px;
-      }
-
-      .mtw .widget {
-        max-width: 360px;
-        margin: 0 auto;
-        padding: 22px;
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(12px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      }
-
-      .mtw .city {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-      }
-
-      .mtw .city strong {
-        font-size: 1.1rem;
-      }
-
-      .mtw .badge {
-        font-size: 0.7rem;
-        padding: 4px 10px;
-        border-radius: 999px;
-        background: rgba(125, 211, 252, 0.15);
-        border: 1px solid rgba(125, 211, 252, 0.35);
-        color: #7dd3fc;
-      }
-
-      .mtw .temp {
-        font-size: 3rem;
-        font-weight: 700;
-        background: linear-gradient(90deg, #7dd3fc, #a78bfa);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-
-      .mtw .desc {
-        color: #9aa4b8;
-        font-size: 0.9rem;
-        margin-bottom: 16px;
-      }
-
-      .mtw .stats {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-      }
-
-      .mtw .stat {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 10px;
-        font-size: 0.82rem;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.05);
-      }
-
-      .mtw .stat span:first-child {
-        color: #9aa4b8;
-      }
-
-      .mtw .stat span:last-child {
-        font-weight: 600;
-      }
-
-      .mtw .sun {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 16px;
-        font-size: 0.8rem;
-        color: #9aa4b8;
-      }
-
-      .mtw .sun span::before {
-        content: "☀ ";
-      }
-
-      .mtw footer {
-        text-align: center;
-        margin-top: 18px;
-        font-size: 0.72rem;
-        color: #9aa4b8;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="mtw">
-      <h2>Météo du jour</h2>
-      <div class="widget">
-        <div class="city">
-          <strong>Cayenne, Guyane</strong>
-          <span class="badge">Live</span>
-        </div>
-        <p class="temp">28.4°C</p>
-        <p class="desc">Ciel dégagé — ressenti 31°C</p>
-        <div class="stats">
-          <div class="stat"><span>Humidité</span><span>78%</span></div>
-          <div class="stat"><span>Vent</span><span>3.6 m/s</span></div>
-          <div class="stat"><span>Pression</span><span>1012 hPa</span></div>
-          <div class="stat"><span>Visibilité</span><span>10 km</span></div>
-        </div>
-        <div class="sun">
-          <span>Lever 06:12</span>
-          <span>Coucher 18:24</span>
-        </div>
-      </div>
+  #panneau {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 230px;
+    background: rgba(10, 14, 30, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(120, 100, 255, 0.35);
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 12px;
+  }
+  #panneau h1 { font-size: 15px; color: #a78bff; margin-bottom: 8px; }
+  #panneau .ligne { margin: 6px 0; line-height: 1.5; opacity: 0.85; }
+  button {
+    width: 100%;
+    padding: 7px;
+    margin-top: 8px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid rgba(120, 100, 255, 0.5);
+    background: rgba(109, 74, 255, 0.15);
+    color: #cfd6ff;
+    font-size: 12px;
+  }
+  button:hover { background: rgba(109, 74, 255, 0.4); }
+</style>
+<body>
+  <div id="stage">
+    <canvas id="ciel"></canvas>
+    <div id="hud">
+      <span>Temps écoulé : <b id="valTemps">0 an</b></span>
+      <span>Vitesse : <b id="valVitesse">1 an / 18 s</b></span>
     </div>
-  </body>
-</html>
+  </div>
+
+  <div id="panneau">
+    <h1>Système solaire</h1>
+    <div class="ligne">Vitesse : <span id="valVit">x1</span></div>
+    <button id="vitesseBtn">Changer la vitesse</button>
+    <button id="pauseBtn">Pause</button>
+    <button id="orbitesBtn">Orbites : oui</button>
+    <button id="nomsBtn">Noms : oui</button>
+    <button id="resetBtn">Recommencer</button>
+  </div>
+
+  <script>
+    // ================= DONNÉES =================
+    // periode : période orbitale en jours terrestres (NASA Planetary Fact Sheet)
+    // ua : distance moyenne au Soleil en unités astronomiques
+    // taille : rayon d'affichage en px (PAS à l'échelle)
+    const PLANETES = [
+      { nom: "Mercure", ua: 0.387, periode: 87.97,    taille: 3,   couleur: "#b8b0a8", phase: 0.4 },
+      { nom: "Vénus",   ua: 0.723, periode: 224.70,   taille: 5,   couleur: "#e8c98a", phase: 2.1 },
+      { nom: "Terre",   ua: 1.0,   periode: 365.256,  taille: 5.5, couleur: "#4f8cff", phase: 4.0 },
+      { nom: "Mars",    ua: 1.524, periode: 686.98,   taille: 4,   couleur: "#d9593a", phase: 5.3 },
+      { nom: "Jupiter", ua: 5.203, periode: 4332.59,  taille: 11,  couleur: "#d8b48a", phase: 1.0 },
+      { nom: "Saturne", ua: 9.537, periode: 10759.22, taille: 9,   couleur: "#e3cf9a", phase: 3.3, anneau: true },
+      { nom: "Uranus",  ua: 19.19, periode: 30688.5,  taille: 7,   couleur: "#8fe0e6", phase: 0.2 },
+      { nom: "Neptune", ua: 30.07, periode: 60182,    taille: 7,   couleur: "#4a5fe0", phase: 2.6 },
+    ];
+    const LUNE = { periode: 27.32, rayon: 10, taille: 1.8 };
+
+    // jours simulés par seconde réelle : x1 = 1 an en ~18 s
+    const VITESSES = [
+      { label: "x1", jps: 20 },
+      { label: "x4", jps: 80 },
+      { label: "x16", jps: 320 },
+      { label: "x64", jps: 1280 },
+    ];
+    let vitIdx = 0;
+
+    const canvas = document.getElementById("ciel");
+    const ctx = canvas.getContext("2d");
+    let echelle = 1;
+
+    function redimensionner() {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+      echelle = Math.min(canvas.width, canvas.height) / 2 / 205;
+    }
+    window.addEventListener("resize", redimensionner);
+
+    // Distance compressée (racine carrée) : Mercure ~30 px, Neptune ~190 px
+    const RAC_MIN = Math.sqrt(0.387);
+    const RAC_MAX = Math.sqrt(30.07);
+    function rayonOrbite(ua) {
+      return 30 + (160 * (Math.sqrt(ua) - RAC_MIN)) / (RAC_MAX - RAC_MIN);
+    }
+
+    // ================= ÉTAT =================
+    let jours = 0;
+    let enPause = false;
+    let afficherOrbites = true;
+    let afficherNoms = true;
+
+    // ================= RENDU =================
+    function dessiner() {
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+
+      ctx.fillStyle = "#02040c";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "rgba(255,255,255,0.35)";
+      for (let i = 0; i < 70; i++) {
+        ctx.fillRect((i * 97) % canvas.width, (i * 53) % canvas.height, 1.5, 1.5);
+      }
+
+      // orbites
+      if (afficherOrbites) {
+        ctx.strokeStyle = "rgba(140, 120, 255, 0.18)";
+        ctx.lineWidth = 1;
+        for (const p of PLANETES) {
+          ctx.beginPath();
+          ctx.arc(cx, cy, rayonOrbite(p.ua) * echelle, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      }
+
+      // Soleil
+      const rs = 14 * echelle;
+      const halo = ctx.createRadialGradient(cx, cy, rs * 0.5, cx, cy, rs * 3);
+      halo.addColorStop(0, "rgba(255, 210, 90, 0.6)");
+      halo.addColorStop(0.5, "rgba(255, 140, 40, 0.15)");
+      halo.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = halo;
+      ctx.beginPath();
+      ctx.arc(cx, cy, rs * 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#ffd75e";
+      ctx.beginPath();
+      ctx.arc(cx, cy, rs, 0, Math.PI * 2);
+      ctx.fill();
+
+      // planètes
+      ctx.font = `${Math.max(10, 11 * echelle)}px "Segoe UI", sans-serif`;
+      for (const p of PLANETES) {
+        const angle = p.phase + (Math.PI * 2 * jours) / p.periode;
+        const r = rayonOrbite(p.ua) * echelle;
+        const x = cx + Math.cos(angle) * r;
+        const y = cy + Math.sin(angle) * r;
+        const taille = p.taille * echelle;
+
+        if (p.anneau) {
+          ctx.strokeStyle = "rgba(227, 207, 154, 0.8)";
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.ellipse(x, y, taille * 1.9, taille * 0.6, -0.3, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        ctx.fillStyle = p.couleur;
+        ctx.beginPath();
+        ctx.arc(x, y, taille, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Lune autour de la Terre
+        if (p.nom === "Terre") {
+          const aL = (Math.PI * 2 * jours) / LUNE.periode;
+          const rL = LUNE.rayon * echelle;
+          if (afficherOrbites) {
+            ctx.strokeStyle = "rgba(200, 200, 220, 0.2)";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(x, y, rL, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+          ctx.fillStyle = "#c9ccd6";
+          ctx.beginPath();
+          ctx.arc(x + Math.cos(aL) * rL, y + Math.sin(aL) * rL, LUNE.taille * echelle, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        if (afficherNoms) {
+          ctx.fillStyle = "rgba(207, 214, 255, 0.75)";
+          ctx.fillText(p.nom, x + taille + 4, y - taille - 2);
+        }
+      }
+    }
+
+    // ================= BOUCLE =================
+    const $ = (id) => document.getElementById(id);
+    let derniere = performance.now();
+
+    function majHUD() {
+      const ans = jours / 365.256;
+      $("valTemps").textContent =
+        ans < 1 ? Math.floor(jours) + " j" : ans.toFixed(1) + " ans";
+      $("valVitesse").textContent = VITESSES[vitIdx].label;
+      $("valVit").textContent = VITESSES[vitIdx].label;
+    }
+
+    function boucle(maintenant) {
+      const dt = Math.min((maintenant - derniere) / 1000, 0.05);
+      derniere = maintenant;
+      if (!enPause) jours += dt * VITESSES[vitIdx].jps;
+      majHUD();
+      dessiner();
+      requestAnimationFrame(boucle);
+    }
+
+    // ================= BOUTONS =================
+    $("vitesseBtn").addEventListener("click", () => {
+      vitIdx = (vitIdx + 1) % VITESSES.length;
+    });
+    $("pauseBtn").addEventListener("click", () => {
+      enPause = !enPause;
+      $("pauseBtn").textContent = enPause ? "Reprendre" : "Pause";
+    });
+    $("orbitesBtn").addEventListener("click", () => {
+      afficherOrbites = !afficherOrbites;
+      $("orbitesBtn").textContent = "Orbites : " + (afficherOrbites ? "oui" : "non");
+    });
+    $("nomsBtn").addEventListener("click", () => {
+      afficherNoms = !afficherNoms;
+      $("nomsBtn").textContent = "Noms : " + (afficherNoms ? "oui" : "non");
+    });
+    $("resetBtn").addEventListener("click", () => {
+      jours = 0;
+    });
+
+    // ================= START =================
+    redimensionner();
+    requestAnimationFrame(boucle);
+  </script>
+</body>
