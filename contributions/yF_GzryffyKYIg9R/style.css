@@ -1,0 +1,84 @@
+/* Style de la scène : l'eau, les nuages, les pétales, les poissons et l'onomatopée sont animés ici */
+
+html, body {
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #2680b8;
+}
+
+#scene {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Les traits blancs de l'eau défilent */
+.reflet { animation: flow linear infinite; }
+@keyframes flow {
+  from { transform: translateX(-300px); }
+  to   { transform: translateX(960px); }
+}
+
+/* Nuages qui dérivent */
+.nuage { animation: derive linear infinite; }
+@keyframes derive {
+  from { transform: translateX(-300px); }
+  to   { transform: translateX(960px); }
+}
+
+/* Étoiles qui scintillent sur l'eau */
+.etoile {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: etoile ease-in-out infinite;
+}
+@keyframes etoile {
+  0%, 100% { transform: scale(0); opacity: 0; }
+  50%      { transform: scale(1); opacity: 1; }
+}
+
+/* Pétales qui tombent */
+.petale {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: chute linear infinite;
+}
+@keyframes chute {
+  from { transform: translate(0, -20px) rotate(0deg); }
+  to   { transform: translate(-130px, 450px) rotate(540deg); }
+}
+
+/* Ondes autour des rochers */
+.onde {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: onde 2.4s ease-out infinite;
+}
+@keyframes onde {
+  from { transform: scale(0.6); opacity: 0.9; }
+  to   { transform: scale(1.5); opacity: 0; }
+}
+
+/* Poissons */
+.nage { animation: nage linear infinite; }
+@keyframes nage {
+  from { transform: translateX(-260px); }
+  to   { transform: translateX(920px); }
+}
+.ondule { animation: ondule 2.2s ease-in-out infinite; }
+@keyframes ondule {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(6px); }
+}
+
+/* Onomatopée */
+.sara { animation: flotte 2s ease-in-out infinite; }
+@keyframes flotte {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; }
+}
