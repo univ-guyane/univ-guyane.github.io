@@ -1,0 +1,75 @@
+<header class="entete">
+  <h1>Provenance</h1>
+  <p class="mono">Œuvres du Metropolitan Museum</p>
+</header>
+
+<div id="alerte" class="alerte" role="status" hidden>
+  <span id="alerte-texte"></span>
+  <button id="btn-reessayer">Réessayer</button>
+</div>
+
+<main>
+  <section id="ecran-accueil">
+    <p class="regles">
+      Chaque œuvre apparaît sans explication. Choisissez la culture dont elle
+      vient. Une bonne réponse vaut 100 points, et chaque indice demandé en
+      retire 15.
+    </p>
+    <p class="note">
+      La série continue aussi longtemps que vous le voulez. Elle peut devenir la
+      meilleure à partir de 10 œuvres. Cependant les scores ne sont pas
+      enregistrés et sont réinitialisés à chaque rechargement de la page.
+    </p>
+    <div id="bloc-debut">
+      <button id="btn-commencer" class="principal grand">Commencer</button>
+    </div>
+    <div id="bloc-reprise" hidden>
+      <p id="resume" class="gros-texte"></p>
+      <button id="btn-continuer" class="principal grand">Continuer</button>
+      <button id="btn-nouvelle" class="grand">Nouvelle série</button>
+    </div>
+    <dl id="stats" class="stats"></dl>
+  </section>
+
+  <section id="ecran-jeu" hidden>
+    <div class="barre">
+      <span id="num"></span>
+      <span id="score"></span>
+      <button id="btn-terminer">Terminer la série</button>
+    </div>
+    <div class="jeu">
+      <div class="cadre">
+        <div id="chargement" class="chargement" hidden>
+          <span class="carre"></span>
+          <span id="msg-chargement" class="mono"></span>
+        </div>
+        <img id="photo" alt="Œuvre à identifier" hidden />
+      </div>
+      <div class="panneau">
+        <h2>D'où vient cette œuvre ?</h2>
+        <div id="choix" class="choix"></div>
+        <div class="indices">
+          <button id="btn-indice">Demander un indice</button>
+          <p id="valeur" class="mono"></p>
+          <ol id="liste-indices"></ol>
+        </div>
+        <div id="resultat" class="resultat" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ecran-fin" hidden>
+    <p class="mono">Série terminée</p>
+    <p id="bilan-texte" class="gros-texte"></p>
+    <p id="bilan-record"></p>
+    <dl id="stats-fin" class="stats"></dl>
+    <button id="btn-rejouer" class="principal grand">Nouvelle série</button>
+  </section>
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/outils.js"></script>
+<script src="js/met.js"></script>
+<script src="js/stockage.js"></script>
+<script src="js/affichage.js"></script>
+<script src="js/jeu.js"></script>

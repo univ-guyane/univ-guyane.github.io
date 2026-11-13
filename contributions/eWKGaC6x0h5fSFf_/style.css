@@ -1,0 +1,49 @@
+/* --- Garage pixelisé --- */
+#garage-pixel {
+  margin: 2rem auto;
+  max-width: 1100px;
+  padding: 1.25rem;
+  background: #0b1020;
+  color: #f5f7ff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  font-family: system-ui, sans-serif;
+}
+
+#garage-pixel h2 {
+  margin: 0 0 1rem;
+  text-align: center;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+#garage-pixel .voitures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+#garage-pixel figure {
+  margin: 0;
+  padding: 1rem;
+  background: #151b33;
+  border: 2px solid #2a335c;
+  border-radius: 12px;
+  text-align: center;
+}
+
+#garage-pixel svg {
+  display: block;
+  width: min(320px, 80vw);
+  height: auto;
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+}
+
+#garage-pixel figcaption {
+  margin-top: .75rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}

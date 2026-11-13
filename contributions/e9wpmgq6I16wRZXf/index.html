@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Bullet Hell - L1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Écran du Menu -->
+    <div id="menu">
+        <h1>Bullet Hell - L1</h1>
+        <p>Survis le plus longtemps possible en esquivant les boules rouges !</p>
+        <button id="btnPlay">PLAY</button>
+    </div>
+
+    <!-- Le score en jeu -->
+    <div id="ui" class="cache">Temps : <span id="timer">0</span> secondes</div>
+
+    <!-- La zone de jeu -->
+    <canvas id="jeu" class="cache"></canvas>
+
+    <script>
+        const canvas = document.getElementById("jeu");
+        const ctx = canvas.getContext("2d");
+        const timerTxt = document.getElementById("timer");
+        const menu = document.getElementById("menu");
+        const ui = document.getElementById("ui");
+        const btnPlay = document.getElementById("btnPlay");
+
+        canvas.width = window.innerWidth;
+        canvas.height = 420;
+
+        let joueur = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            taille: 12,
+            vitesse: 3
+        };
+
+        let boulesRouges = [];
+        let touches = {};
+        let secondes = 0;
+        let jeuActif = false;
+        let horloge = null;
+        let horlogeBoules = null;
+
+        // Gestion propre du clavier
+        window.addEventListener('keydown', (e) => {
+            touches[e.key.toLowerCase()] = true;
+        });
+
+        window.addEventListener('keyup', (e) => {
+            touches[e.key.toLowerCase()] = false;
+        });
+
+        btnPlay.addEventListener('click', () => {
+            menu.classList.add('cache');
+            ui.classList.remove('cache');
+            canvas.classList.remove('cache');
+
+            // Réinitialisation complète
+            secondes = 0;
+            timerTxt.textContent = secondes;
+            boulesRouges = [];
+            touches = {}; // On vide les touches pour éviter qu'il bouge tout seul
+            joueur.x = canvas.width / 2;
+            joueur.y = canvas.height / 2;
+            jeuActif = true;
+
+            // Nettoyage des anciens intervalles au cas où
+            clearInterval(horloge);
+            clearInterval(horlogeBoules);
+
+            horloge = setInterval(() => {
+                if (jeuActif) {
+                    secondes++;
+                    timerTxt.textContent = secondes;                
+                }
+            }, 1000);
+
+            horlogeBoules = setInterval(() => {
+                if (jeuActif) {
+                    creerBouleRouge();
+					creerBouleRouge();
+					creerBouleRouge();
+					creerBouleRouge();
+					creerBouleRouge();
+                }
+            }, 500);
+
+            bouclerJeu();
+        });
+
+        function creerBouleRouge() {
+            let x, y, vx, vy;
+            let cote = Math.floor(Math.random() * 4);
+            let vitesseBase = 2 + (secondes * 0.05);
+
+            if (cote === 0) {
+                x = Math.random() * canvas.width; y = -15;
+                vx = (Math.random() - 0.5) * 2; vy = vitesseBase;
+            } else if (cote === 1) {
+                x = Math.random() * canvas.width; y = canvas.height + 15;
+                vx = (Math.random() - 0.5) * 2; vy = -vitesseBase;
+            } else if (cote === 2) {
+                x = -15; y = Math.random() * canvas.height;
+                vx = vitesseBase; vy = (Math.random() - 0.5) * 2;
+            } else {
+                x = canvas.width + 15; y = Math.random() * canvas.height;
+                vx = -vitesseBase; vy = (Math.random() - 0.5) * 2;
+            }
+
+            boulesRouges.push({ x: x, y: y, vx: vx, vy: vy, taille: 8 });
+        }
+
+        function bouclerJeu() {
+            if (!jeuActif) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Mouvements du joueur fluides avec ZQSD ou WASD
+            if ((touches['w'] || touches['z']) && joueur.y > joueur.taille) joueur.y -= joueur.vitesse;
+            if ((touches['s']) && joueur.y < canvas.height - joueur.taille) joueur.y += joueur.vitesse;
+            if ((touches['a'] || touches['q']) && joueur.x > joueur.taille) joueur.x -= joueur.vitesse;
+            if ((touches['d']) && joueur.x < canvas.width - joueur.taille) joueur.x += joueur.vitesse;
+
+            // Dessiner le joueur
+            ctx.fillStyle = '#00d2d3';
+            ctx.beginPath();
+            ctx.arc(joueur.x, joueur.y, joueur.taille, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Gérer les boules rouges
+            for (let i = 0; i < boulesRouges.length; i++) {
+                let b = boulesRouges[i];
+                b.x += b.vx;
+                b.y += b.vy;
+
+                ctx.fillStyle = '#ff4757';
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.taille, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Collisions
+                let distanceX = joueur.x - b.x;
+                let distanceY = joueur.y - b.y;
+                let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                if (distance < joueur.taille + b.taille) {
+                    jeuActif = false;
+                    clearInterval(horloge);
+                    clearInterval(horlogeBoules);
+                    alert("Game Over ! Vous avez survécu " + secondes + " secondes.");
+                    
+                    // Retour au menu
+                    ui.classList.add('cache');
+                    canvas.classList.add('cache');
+                    menu.classList.remove('cache');
+                    return;
+                }
+            }
+
+            requestAnimationFrame(bouclerJeu);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Guyane — Le saviez-vous ?</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="carte">
+        <h1>La Guyane</h1>
+        <p>Découvre des pépites incroyables sur la Guyane !</p>
+
+        <!-- Bouton principal -->
+        <button onclick="donnerAnecdote()">Le saviez-vous ? (Anecdote)</button>
+
+        <!-- Zone qui affiche l'anecdote -->
+        <div id="zone-anecdote">
+            Clique sur le bouton ci-dessus pour afficher une anecdote !
+        </div>
+
+        <hr style="margin-top: 30px; border: 1px solid #c8e6c9;">
+
+        <h2>Quelques infos rapides :</h2>
+        <ul>
+            <li><strong>Superficie :</strong> Couverte à plus de 95 % par la forêt amazonienne.</li>
+            <li><strong>Espace :</strong> Le Centre Spatial se trouve à Kourou.</li>
+            <li><strong>Culture :</strong> Célèbre pour son grand Carnaval et ses Touloulous.</li>
+            <li><strong>Musique :</strong> Le Kasékò est une musique créole répandue sur tout le territoire.</li>
+        </ul>
+
+        <!-- Zone Canvas ajoutée -->
+        <canvas id="monCanvas"></canvas>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script>
+        var anecdotes = [
+            "La Guyane est le plus grand département de toute la France !",
+            "Le carnaval en Guyane est l'un des plus longs du monde (plusieurs semaines).",
+            "La fusée Ariane décolle depuis Kourou en Guyane.",
+            "Les tortues Luth viennent pondre leurs œufs directement sur les plages de Guyane.",
+            "En Guyane, il y a plus de 700 espèces d'oiseaux différentes !",
+            "En Guyane, le rhum local très célèbre est la Belle Cabresse !",
+            "Le nom de famille le plus répandu en Guyane est le nom JOSEPH.",
+            "Certaines communes guyanaises comme Saül ou Maripasoula ne sont reliées par aucune route et ne sont accessibles qu'en avion ou en pirogue.",
+            "Mon dessert préf c'est le chocolat créole avec une bonne tranche de pain natte.",
+            "L'île du Diable, au large de Kourou, a été le lieu d'emprisonnement d'Alfred Dreyfus à la fin du XIXe siècle.",
+            "Grâce à sa proximité avec l'équateur, le Centre Spatial Guyanais de Kourou offre un effet de fronde idéal pour lancer les fusées européennes.",
+            "La plus longue frontière terrestre de France mesure 730 km et sépare la Guyane du Brésil.",
+            "La réserve naturelle des Nouragues s'étend sur plus de 100 000 hectares et n'est accessible qu'aux scientifiques.",
+            "Les plages d'Awala-Yalimapo sont un site majeur de ponte pour la tortue luth, la plus grande tortue marine existante.",
+            "La Guyane ne pratique pas le changement d'heure : le soleil s'y lève et s'y couche quasiment à la même heure toute l'année.",
+            "Inauguré en 2017, le pont sur l'Oyapock est le premier lien routier direct entre la France et le Brésil.",
+            "Le piment végétarien guyanais offre tout le parfum du piment sans aucune sensation de brûlure."
+        ];
+
+        function donnerAnecdote() {
+            var nombreAuHasard = Math.floor(Math.random() * anecdotes.length);
+            document.getElementById("zone-anecdote").innerHTML = anecdotes[nombreAuHasard];
+        }
+    </script>
+
+</body>
+</html>

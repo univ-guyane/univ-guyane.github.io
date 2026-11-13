@@ -1,0 +1,331 @@
+:root {
+  --mur: #dcdfd8; /* fond de page : pierre grise, ni blanc ni noir */
+  --creux: #cbd0c7; /* boutons, cadre de l'image */
+  --creux-fonce: #bcc2b8;
+  --texte: #2e3532;
+  --doux: #58615c; /* textes secondaires */
+  --clair: #f2f3ee;
+  --trait: rgba(46, 53, 50, 0.18);
+  --bleu: #3b4a99; /* seul accent */
+  --bleu-fonce: #2f3c80;
+  --faux-fond: #e3c9c4;
+  --faux-texte: #7d2a20;
+  --cadre-l: 28rem; /* taille du cadre de l'image */
+  --cadre-h: 20rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background: var(--mur);
+  color: var(--texte);
+  font:
+    1rem/1.55 "IBM Plex Sans",
+    system-ui,
+    sans-serif;
+}
+
+.entete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem 1.25rem;
+  padding: 1.75rem 1.5rem 1rem;
+}
+h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+main {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 3rem;
+}
+
+.mono {
+  margin: 0;
+  font:
+    500 0.78rem/1.4 "IBM Plex Mono",
+    monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--doux);
+}
+
+/* ---- Boutons : des aplats, sans contour ---- */
+button {
+  font: inherit;
+  cursor: pointer;
+  padding: 0.65rem 1.1rem;
+  border: 0;
+  border-radius: 0;
+  background: var(--creux);
+  color: var(--texte);
+}
+button:hover:not(:disabled) {
+  background: var(--creux-fonce);
+}
+button:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+button.principal {
+  background: var(--bleu);
+  color: var(--clair);
+  font-weight: 600;
+}
+button.principal:hover:not(:disabled) {
+  background: var(--bleu-fonce);
+}
+button.grand {
+  padding: 0.9rem 2rem;
+  font-size: 1.1rem;
+}
+:focus-visible {
+  outline: 2px solid var(--bleu);
+  outline-offset: 2px;
+}
+a {
+  color: var(--bleu);
+}
+
+/* ---- Alerte réseau ---- */
+.alerte {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.5rem;
+  background: var(--faux-fond);
+  color: var(--faux-texte);
+}
+.alerte button {
+  padding: 0.3rem 0.8rem;
+  background: var(--faux-texte);
+  color: var(--faux-fond);
+}
+.alerte button:hover:not(:disabled) {
+  background: #5e1f18;
+}
+
+/* ---- Accueil, centré ---- */
+#ecran-accueil,
+#ecran-fin {
+  text-align: center;
+  padding-top: 1.5rem;
+}
+.regles {
+  font-size: 1.2rem;
+  max-width: 36rem;
+  margin: 0 auto 0.75rem;
+}
+.note {
+  max-width: 36rem;
+  margin: 0 auto 1.75rem;
+  color: var(--doux);
+}
+.gros-texte {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+#bloc-reprise button + button {
+  margin-left: 0.75rem;
+}
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 3rem;
+  margin: 2.5rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--trait);
+}
+.stats dt {
+  font:
+    500 0.78rem "IBM Plex Mono",
+    monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--doux);
+}
+.stats dd {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+#ecran-fin .stats {
+  margin-bottom: 2rem;
+}
+
+/* ---- Jeu ---- */
+.barre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--trait);
+  font:
+    500 0.8rem "IBM Plex Mono",
+    monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--doux);
+}
+.barre button {
+  margin-left: auto;
+  padding: 0.35rem 0.8rem;
+  font: inherit;
+}
+.jeu {
+  display: grid;
+  grid-template-columns: var(--cadre-l) 1fr;
+  gap: 1.5rem 2rem;
+  align-items: start;
+  justify-content: center;
+}
+
+.cadre {
+  position: relative;
+  width: var(--cadre-l);
+  max-width: 100%;
+  height: var(--cadre-h);
+  background: var(--creux);
+}
+.cadre img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.chargement {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: var(--creux);
+}
+.carre {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 3px solid var(--doux);
+  border-top-color: transparent;
+  animation: tourne 0.9s linear infinite;
+}
+@keyframes tourne {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.choix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.choix button {
+  text-align: left;
+  min-height: 3rem;
+  font-weight: 500;
+}
+.choix button.juste {
+  background: var(--bleu);
+  color: var(--clair);
+  opacity: 1;
+}
+.choix button.faux {
+  background: var(--faux-fond);
+  color: var(--faux-texte);
+  text-decoration: line-through;
+  opacity: 1;
+}
+
+.indices ol {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+.indices li {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--trait);
+}
+.indices .etiq {
+  font:
+    500 0.78rem "IBM Plex Mono",
+    monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--doux);
+}
+#valeur {
+  margin-top: 0.6rem;
+}
+
+.resultat {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--trait);
+}
+.resultat p {
+  margin: 0 0 0.5rem;
+}
+.resultat .verdict {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+.resultat button {
+  display: block;
+  margin-top: 1rem;
+}
+
+/* ---- Adaptation vers le bas ---- */
+@media (max-width: 52rem) {
+  .jeu {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 36rem) {
+  main {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .choix {
+    grid-template-columns: 1fr;
+  }
+  .indices li {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+  :root {
+    --cadre-h: 16rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carre {
+    animation: none;
+  }
+}

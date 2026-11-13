@@ -1,1 +1,91 @@
-truc
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plus ou moins</title>
+<style>
+  :root { color-scheme: light dark; box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body { margin: 0; font-family: Georgia, serif; }
+  #game { height: 420px; overflow-y: auto; box-sizing: border-box; padding: 16px; max-width: 480px; margin: 0 auto; }
+  h1 { font-size: 20px; margin: 0 0 8px; }
+  input { font-size: 16px; width: 120px; padding: 4px; }
+  button { font-size: 16px; padding: 4px 12px; }
+  #message { margin: 12px 0; font-weight: bold; min-height: 24px; }
+</style>
+</head>
+<body>
+<div id="game">
+  <h1>Plus ou moins</h1>
+  <p>Devine le nombre entre 1 et 10000. Tu as 10 tentatives.</p>
+  <p>Tentatives restantes : <span id="remaining">10</span></p>
+  <input id="guess" type="number" min="1" max="10000" placeholder="Ton nombre">
+  <button id="submit">Valider</button>
+  <button id="replay" hidden>Rejouer</button>
+  <p id="message"></p>
+</div>
+<script>
+  var secret, remaining, gameOver;
+  var guessInput = document.getElementById("guess");
+  var messageEl = document.getElementById("message");
+  var remainingEl = document.getElementById("remaining");
+  var submitButton = document.getElementById("submit");
+  var replayButton = document.getElementById("replay");
+
+  function startGame() {
+    secret = Math.floor(Math.random() * 10000) + 1;
+    remaining = 10;
+    gameOver = false;
+    remainingEl.textContent = remaining;
+    showMessage("");
+    guessInput.value = "";
+    guessInput.disabled = false;
+    submitButton.hidden = false;
+    replayButton.hidden = true;
+    guessInput.focus();
+  }
+
+  function showMessage(text) {
+    messageEl.textContent = text;
+  }
+
+  function endGame(text) {
+    gameOver = true;
+    showMessage(text);
+    guessInput.disabled = true;
+    submitButton.hidden = true;
+    replayButton.hidden = false;
+  }
+
+  function submitGuess() {
+    if (gameOver) return;
+    var guess = parseInt(guessInput.value, 10);
+    if (isNaN(guess) || guess < 1 || guess > 10000) {
+      showMessage("Entre un nombre entre 1 et 10000.");
+      return;
+    }
+    remaining--;
+    remainingEl.textContent = remaining;
+    if (guess === secret) {
+      endGame("Gagné !");
+      return;
+    }
+    if (remaining === 0) {
+      endGame("Perdu ! C’était " + secret + ".");
+    } else if (guess < secret) {
+      showMessage("Plus");
+    } else {
+      showMessage("Moins");
+    }
+    guessInput.value = "";
+    guessInput.focus();
+  }
+
+  submitButton.addEventListener("click", submitGuess);
+  replayButton.addEventListener("click", startGame);
+  guessInput.addEventListener("keydown", function (e) { if (e.key === "Enter") submitGuess(); });
+  startGame();
+</script>
+</body>
+</html>

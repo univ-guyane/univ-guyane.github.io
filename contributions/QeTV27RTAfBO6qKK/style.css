@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1f3a33;
+  font-family: sans-serif;
+  color: white;
+  text-align: center;
+}
+.carte img {
+  max-height: 280px;
+  max-width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+.carte h1 {
+  margin: 12px 0 4px;
+  font-size: 1.6rem;
+}
+.carte p {
+  margin: 0;
+  opacity: 0.8;
+}

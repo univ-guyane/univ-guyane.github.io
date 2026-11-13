@@ -1,0 +1,530 @@
+
+/* =================================
+   1. CONFIGURATION GENERALE
+================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --background: #0b1120;
+    --panel: #151f32;
+    --panel-light: #1e293b;
+    --green: #22c55e;
+    --green-light: #4ade80;
+    --blue: #38bdf8;
+    --red: #ef4444;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background:
+        radial-gradient(ellipse at top, #17253e 0%, var(--background) 65%);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 35px 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1050px;
+    margin: auto;
+}
+
+/* =================================
+   2. EN-TETE
+================================= */
+
+.header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.eyebrow {
+    color: var(--green-light);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-size: clamp(32px, 6vw, 48px);
+    font-weight: 900;
+    letter-spacing: 3px;
+}
+
+h1 span {
+    color: var(--green-light);
+}
+
+.subtitle {
+    color: var(--muted);
+    margin-top: 12px;
+    font-size: 15px;
+}
+
+/* =================================
+   3. STATISTIQUES PRINCIPALES
+================================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.stat-card {
+    background: var(--panel);
+    border: 1px solid #29364b;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.stat-card:hover {
+    border-color: var(--green);
+    transform: translateY(-3px);
+}
+
+.stat-label {
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 29px;
+    font-weight: bold;
+}
+
+/* =================================
+   4. ZONE DE JEU
+================================= */
+
+.game-panel {
+    background: var(--panel);
+    border: 1px solid #29364b;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+}
+
+.game-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 5px 15px;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.game-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-weight: bold;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--muted);
+    border-radius: 50%;
+}
+
+.game-status.active {
+    color: var(--green-light);
+}
+
+.game-status.active .status-dot {
+    background: var(--green);
+    box-shadow: 0 0 10px var(--green);
+    animation: pulse 1s infinite;
+}
+
+.best-score {
+    color: var(--muted);
+}
+
+.best-score strong {
+    color: var(--green-light);
+}
+
+/* Zone dans laquelle apparaissent les cibles */
+
+#game-area {
+    width: 100%;
+    height: 450px;
+    background-color: #0c1628;
+    background-image:
+        linear-gradient(rgba(56, 189, 248, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.035) 1px, transparent 1px);
+    background-size: 30px 30px;
+    border: 1px solid #29364b;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    cursor: crosshair;
+    user-select: none;
+}
+
+/* =================================
+   5. BOUTONS ET ECRANS
+================================= */
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(11, 17, 32, 0.85);
+    text-align: center;
+    cursor: default;
+    backdrop-filter: blur(4px);
+}
+
+.hidden {
+    display: none;
+}
+
+.overlay-content {
+    padding: 25px;
+    width: 100%;
+}
+
+.target-icon {
+    font-size: 55px;
+    color: var(--green-light);
+    margin-bottom: 15px;
+    text-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+}
+
+.overlay h2 {
+    font-size: 27px;
+    margin-bottom: 12px;
+}
+
+.overlay p {
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.main-button {
+    padding: 15px 35px;
+    border: none;
+    border-radius: 8px;
+    background: var(--green);
+    color: #052e16;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.main-button:hover {
+    background: var(--green-light);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.35);
+}
+
+.main-button:active {
+    transform: scale(0.97);
+}
+
+/* =================================
+   6. CIBLES
+================================= */
+
+.target {
+    position: absolute;
+    border-radius: 50%;
+    cursor: crosshair;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: radial-gradient(
+        circle,
+        #ffffff 0%,
+        #ffffff 12%,
+        #ef4444 14%,
+        #ef4444 38%,
+        #ffffff 40%,
+        #ffffff 55%,
+        #dc2626 57%,
+        #dc2626 100%
+    );
+
+    border: 2px solid #ffffff;
+    box-shadow:
+        0 0 10px rgba(239, 68, 68, 0.7),
+        0 0 22px rgba(239, 68, 68, 0.3);
+
+    transition: left 0.65s ease, top 0.65s ease;
+    animation: target-appear 0.2s ease-out;
+}
+
+.target:hover {
+    filter: brightness(1.2);
+}
+
+.target.hit {
+    pointer-events: none;
+    animation: target-hit 0.18s forwards;
+}
+
+@keyframes target-appear {
+    from {
+        opacity: 0;
+        transform: scale(0.4);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes target-hit {
+    to {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+@keyframes pulse {
+    50% {
+        opacity: 0.4;
+    }
+}
+
+/* =================================
+   7. BARRE DE PROGRESSION
+================================= */
+
+.progress-container {
+    height: 5px;
+    background: #29364b;
+    border-radius: 10px;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 100%;
+    background: var(--green);
+    transition: width 0.2s linear;
+}
+
+/* =================================
+   8. STATISTIQUES SECONDAIRES
+================================= */
+
+.performance {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.performance-card {
+    background: var(--panel);
+    border: 1px solid #29364b;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.performance-icon {
+    font-size: 27px;
+    color: var(--green-light);
+}
+
+.performance-card strong {
+    font-size: 21px;
+    display: block;
+}
+
+.performance-card small {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: normal;
+}
+
+/* =================================
+   9. ECRAN DE FIN
+================================= */
+
+.final-score strong {
+    color: var(--green-light);
+    font-size: 27px;
+}
+
+.final-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.final-stats div {
+    background: var(--panel-light);
+    border-radius: 8px;
+    padding: 12px 5px;
+}
+
+.final-stats span {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+.final-stats strong {
+    font-size: 18px;
+    color: var(--green-light);
+}
+
+/* =================================
+   10. COMMANDES ET PIED DE PAGE
+================================= */
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.controls p {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-align: right;
+}
+
+.secondary-button {
+    background: var(--panel);
+    border: 1px solid #29364b;
+    color: var(--text);
+    border-radius: 7px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.secondary-button:hover {
+    border-color: var(--green);
+}
+
+footer {
+    text-align: center;
+    margin-top: 35px;
+    color: #64748b;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+footer span {
+    color: var(--green);
+}
+
+/* =================================
+   11. RESPONSIVE
+================================= */
+
+@media (max-width: 650px) {
+
+    body {
+        padding: 25px 12px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 13px;
+    }
+
+    .stat-value {
+        font-size: 24px;
+    }
+
+    #game-area {
+        height: 400px;
+    }
+
+    .performance {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .performance-card {
+        padding: 15px;
+    }
+
+    .controls {
+        flex-direction: column;
+    }
+
+    .controls p {
+        text-align: center;
+    }
+
+    .final-stats {
+        gap: 5px;
+    }
+
+    .final-stats span {
+        font-size: 9px;
+    }
+
+    .final-stats strong {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 380px) {
+
+    #game-area {
+        height: 350px;
+    }
+
+    .overlay h2 {
+        font-size: 22px;
+    }
+
+    .main-button {
+        padding: 13px 25px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

@@ -1,0 +1,85 @@
+:root {
+  --fond: linear-gradient(135deg, #d8f3e6, #a8dcc3);
+  --carte: #ffffff;
+  --titre: #0d5c40;
+  --texte: #2b2b2b;
+  --accent: #1b9167;
+  --accent-survol: #0d5c40;
+  --texte-bouton: #ffffff;
+  --ombre: rgba(13, 92, 64, 0.25);
+}
+
+:root[data-theme="dark"] {
+  --fond: linear-gradient(135deg, #1a1026, #3b1f5c);
+  --carte: #261639;
+  --titre: #d6b8ff;
+  --texte: #ece4f7;
+  --accent: #9b59d0;
+  --accent-survol: #b57ee6;
+  --texte-bouton: #ffffff;
+  --ombre: rgba(0, 0, 0, 0.6);
+}
+
+body {
+  margin: 0;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fond);
+  font-family: Arial, sans-serif;
+  transition: background 0.3s;
+}
+
+.carte {
+  position: relative;
+  box-sizing: border-box;
+  width: 90%;
+  max-width: 500px;
+  padding: 48px 24px 24px;
+  background: var(--carte);
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 8px 20px var(--ombre);
+  transition: background 0.3s;
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: 1.6rem;
+  color: var(--titre);
+}
+
+#fact {
+  min-height: 80px;
+  font-size: 1.1rem;
+  color: var(--texte);
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  color: var(--texte-bouton);
+  background: var(--accent);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+button:hover {
+  background: var(--accent-survol);
+  transform: scale(1.08);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.theme {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+}

@@ -1,0 +1,56 @@
+/* Styles limités à la contribution Snake. */
+#snake-game {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 400px;
+    padding: 14px;
+    border-radius: 14px;
+    background: #172033;
+    color: #f4f7fb;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+#snake-game * { box-sizing: border-box; }
+#snake-game .snake-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    max-width: 520px;
+    margin: 0 auto 10px;
+    text-align: left;
+}
+#snake-game h1 { margin: 0 0 4px; color: #8be28b; font-size: 27px; }
+#snake-game .snake-header p, #snake-game .snake-help {
+    margin: 0; color: #c5cede; font-size: 12px;
+}
+#snake-game .snake-score {
+    flex-shrink: 0; padding: 8px 11px; border-radius: 9px;
+    background: #26344d; color: white; font-weight: bold;
+}
+#snake-game .snake-board-wrap {
+    width: min(100%, 360px); margin: 0 auto; padding: 5px;
+    border: 2px solid #52627b; border-radius: 9px; background: #0c1422;
+}
+#snake-game canvas { display: block; width: 100%; height: auto; background: #101b2c; }
+#snake-game .snake-message {
+    min-height: 18px; margin: 8px 0; color: #a9f0a5;
+    font-size: 13px; font-weight: bold;
+}
+#snake-game .snake-controls { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+#snake-game .snake-controls div { display: flex; gap: 4px; }
+#snake-game button {
+    min-width: 38px; min-height: 30px; border: 0; border-radius: 7px;
+    background: #34445e; color: white; font-size: 16px; cursor: pointer;
+}
+#snake-game button:hover { background: #4a6384; }
+#snake-game button:focus-visible { outline: 3px solid #8be28b; outline-offset: 2px; }
+#snake-game .snake-restart {
+    margin-top: 8px; padding: 7px 15px; background: #287a48;
+    font-size: 13px; font-weight: bold;
+}
+#snake-game .snake-help { margin-top: 7px; text-align: center; }
+@media (max-width: 360px) {
+    #snake-game { padding: 10px; }
+    #snake-game .snake-header { align-items: flex-start; }
+}
