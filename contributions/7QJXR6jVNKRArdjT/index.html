@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#05010d">
+  <meta name="description" content="Tshytshi — interface neuronale. Marche, saute, explore le secteur 7.">
+  <title>TSHYTSHI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="fx" aria-hidden="true">
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <div id="app">
+    <header id="top">
+      <a id="ttl" class="glitch" href="#" data-txt="TSHYTSHI">TSHYTSHI</a>
+      <span class="titre" aria-hidden="true">//</span>
+      <p id="lay">
+        LINK&nbsp;: <span class="cy">STABLE</span>
+        <span aria-hidden="true">|</span>
+        PING&nbsp;<span id="ping">12</span>ms
+      </p>
+    
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="surtitre"><span class="cy">▚</span> We don't forgive · We don't forget</p>
+        <h1 class="glitch" data-txt="SECTEUR 7">Computer</h1>
+        <p class="accroche">
+          Lol, qui est interessé au <span class="pk">HACKING</span>, soyez honnête, le
+          <span class="pk">piratage</span> ça vous dit ?
+        </p>
+        <p class="astuce">◀ ▶ MARCHER · ESPACE / ▲ SAUTER</p>
+      </section>
+
+      <section class="cadre" aria-labelledby="titre-scene">
+        <h2 id="titre-scene" class="sr-only">Zone de jeu</h2>
+
+        <div id="scene" role="application"
+             aria-label="Zone de jeu : flèches gauche/droite pour marcher, espace pour sauter">
+
+          <div class="ciel" aria-hidden="true"></div>
+
+          <div class="skyline" aria-hidden="true">
+            <span style="--h:42%"></span><span style="--h:64%"></span><span style="--h:30%"></span>
+            <span style="--h:78%"></span><span style="--h:52%"></span><span style="--h:88%"></span>
+            <span style="--h:38%"></span><span style="--h:70%"></span><span style="--h:46%"></span>
+            <span style="--h:82%"></span><span style="--h:34%"></span><span style="--h:58%"></span>
+          </div>
+
+          <div class="decor" aria-hidden="true">
+            <div class="neon n1">夜市</div>
+            <div class="neon n2">NO FUTURE</div>
+            <div class="tuyau"></div>
+          </div>
+
+          <!-- SOL : 40 px, doit rester égal à SOL dans script.js -->
+          <div class="sol-sprite" aria-hidden="true"></div>
+
+          <p id="aide"><span class="dot" aria-hidden="true"></span>Déplace toi comme tu veux</p>
+
+          <!-- ====== PERSONNAGE ======
+               #perso gère la position et le retournement.
+               Le visuel est dans .sprite : mets ton PNG dessus. -->
+            <div id="perso" class="idle"></div>
+
+          <div class="coins" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </section>
+
+      <section id="infos">
+        <h2>Commentaire</h2>
+        <p>
+          C'est un site pour le projet collective.
+          Je trouve qu'on apprend mieux à utiliser <span class="pk">GitHub.</span>
+          Avez-vous tous hâte de faire d'autres projet ? Pesro, oui.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>© <span id="an">2026</span> Tshytshi — Etudiante en infromatique </p>
+    </footer>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
