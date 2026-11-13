@@ -1,0 +1,502 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Quest Mini - Université de Guyane</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="campus-quest">
+
+  <header class="entete">
+    <div class="logo">🎓 Campus<span>Quest</span></div>
+    <span class="etiquette">ÉDITION UNIVERSITAIRE</span>
+  </header>
+
+  <main>
+
+    <!-- ACCUEIL -->
+    <section id="accueil" class="ecran actif">
+
+      <div class="introduction">
+        <span class="petit-titre">🚀 PRÊT À RELEVER LE DÉFI ?</span>
+
+        <h1>Révise. Joue. Progresse.</h1>
+
+        <p>
+          Un mini-défi universitaire pour tester tes
+          connaissances et apprendre de tes erreurs.
+        </p>
+      </div>
+
+      <h2>Choisis ta matière</h2>
+
+      <div class="matieres">
+
+        <button class="matiere" data-matiere="informatique">
+          <span class="emoji">💻</span>
+          <strong>Informatique</strong>
+          <small>Web et programmation</small>
+          <span class="fleche">Commencer →</span>
+        </button>
+
+        <button class="matiere" data-matiere="mathematiques">
+          <span class="emoji">📐</span>
+          <strong>Mathématiques</strong>
+          <small>Calcul et logique</small>
+          <span class="fleche">Commencer →</span>
+        </button>
+
+        <button class="matiere" data-matiere="anglais">
+          <span class="emoji">🇬🇧</span>
+          <strong>Anglais</strong>
+          <small>Anglais universitaire</small>
+          <span class="fleche">Commencer →</span>
+        </button>
+
+      </div>
+
+      <p class="note">
+        ✨ 4 questions par défi • Corrections immédiates
+      </p>
+
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quiz" class="ecran">
+
+      <div class="haut-quiz">
+        <button id="retour" class="retour">← Retour</button>
+        <span id="nomMatiere">Matière</span>
+        <span id="numeroQuestion">1 / 4</span>
+      </div>
+
+      <div class="barre">
+        <div id="progression" class="remplissage"></div>
+      </div>
+
+      <h2 id="question">Chargement de la question...</h2>
+
+      <div id="reponses" class="reponses"></div>
+
+      <div id="correction" class="correction" hidden>
+        <strong id="verdict"></strong>
+        <p id="explication"></p>
+      </div>
+
+      <button id="suivant" class="bouton-principal" hidden>
+        Question suivante →
+      </button>
+
+    </section>
+
+    <!-- RESULTATS -->
+    <section id="resultats" class="ecran resultats">
+
+      <div class="trophee">🏆</div>
+
+      <h1>Défi terminé !</h1>
+
+      <div id="scoreFinal" class="score">0 / 4</div>
+
+      <p id="messageFinal"></p>
+
+      <div class="resultat-infos">
+        <span>⭐ <strong id="pointsGagnes">0</strong> points gagnés</span>
+        <span>📊 <strong id="pourcentage">0</strong> % de réussite</span>
+      </div>
+
+      <div class="boutons-fin">
+        <button id="rejouer" class="bouton-principal">
+          🔁 Rejouer
+        </button>
+
+        <button id="changerMatiere" class="bouton-secondaire">
+          📚 Autre matière
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    💡 Apprendre, c'est aussi comprendre ses erreurs.
+  </footer>
+
+</div>
+
+<!-- JAVASCRIPT INTEGRE -->
+
+<script>
+"use strict";
+
+/* =====================================
+   QUESTIONS UNIVERSITAIRES
+   ===================================== */
+
+const banqueQuestions = {
+
+  informatique: [
+    {
+      question: "Que signifie HTML ?",
+      reponses: [
+        "HyperText Markup Language",
+        "High Technology Machine",
+        "Home Text Management",
+        "Hyper Transfer Module"
+      ],
+      bonne: 0,
+      explication:
+        "HTML est le langage de balisage qui structure les pages web."
+    },
+
+    {
+      question: "Quel langage sert à styliser un site Internet ?",
+      reponses: [
+        "Python",
+        "CSS",
+        "SQL",
+        "C"
+      ],
+      bonne: 1,
+      explication:
+        "CSS permet de définir les couleurs, les tailles et la mise en page."
+    },
+
+    {
+      question: "Quel résultat donne 2 === '2' en JavaScript ?",
+      reponses: [
+        "true",
+        "2",
+        "false",
+        "undefined"
+      ],
+      bonne: 2,
+      explication:
+        "L'opérateur === compare les valeurs et leurs types."
+    },
+
+    {
+      question: "Quelle commande permet d'enregistrer un commit Git ?",
+      reponses: [
+        "git start",
+        "git save",
+        "git upload",
+        "git commit"
+      ],
+      bonne: 3,
+      explication:
+        "git commit enregistre une version des modifications préparées."
+    }
+  ],
+
+  mathematiques: [
+    {
+      question: "Quelle est la dérivée de f(x) = x² ?",
+      reponses: [
+        "2x",
+        "x",
+        "x³",
+        "2"
+      ],
+      bonne: 0,
+      explication:
+        "La dérivée de x puissance 2 est 2x."
+    },
+
+    {
+      question: "Combien vaut 3² + 4² ?",
+      reponses: [
+        "12",
+        "25",
+        "49",
+        "14"
+      ],
+      bonne: 1,
+      explication:
+        "3² = 9 et 4² = 16, donc le total est 25."
+    },
+
+    {
+      question: "Résous l'équation 2x + 6 = 14.",
+      reponses: [
+        "x = 2",
+        "x = 3",
+        "x = 4",
+        "x = 7"
+      ],
+      bonne: 2,
+      explication:
+        "2x = 14 - 6 = 8, donc x = 4."
+    },
+
+    {
+      question: "Quelle est la probabilité d'obtenir pile avec une pièce équilibrée ?",
+      reponses: [
+        "0 %",
+        "25 %",
+        "75 %",
+        "50 %"
+      ],
+      bonne: 3,
+      explication:
+        "Une pièce équilibrée possède deux résultats équiprobables."
+    }
+  ],
+
+  anglais: [
+    {
+      question: "Comment traduit-on « recherche » en anglais ?",
+      reponses: [
+        "Research",
+        "Holiday",
+        "Shopping",
+        "Meeting"
+      ],
+      bonne: 0,
+      explication:
+        "Research signifie recherche, notamment dans un contexte scientifique."
+    },
+
+    {
+      question: "Complète : She ___ a university student.",
+      reponses: [
+        "are",
+        "is",
+        "am",
+        "be"
+      ],
+      bonne: 1,
+      explication:
+        "Avec she, le verbe to be se conjugue is."
+    },
+
+    {
+      question: "Que signifie « deadline » ?",
+      reponses: [
+        "Bibliothèque",
+        "Résultat",
+        "Date limite",
+        "Examen"
+      ],
+      bonne: 2,
+      explication:
+        "Une deadline est la date limite pour terminer un travail."
+    },
+
+    {
+      question: "Quel est le prétérit du verbe go ?",
+      reponses: [
+        "Goed",
+        "Going",
+        "Gone",
+        "Went"
+      ],
+      bonne: 3,
+      explication:
+        "Go est un verbe irrégulier : go, went, gone."
+    }
+  ]
+
+};
+
+/* =====================================
+   FONCTIONS DU JEU
+   ===================================== */
+
+const element = id => document.getElementById(id);
+
+const nomsMatieres = {
+  informatique: "💻 Informatique",
+  mathematiques: "📐 Mathématiques",
+  anglais: "🇬🇧 Anglais"
+};
+
+let matiereActuelle = "";
+let questionsActuelles = [];
+let position = 0;
+let score = 0;
+let aRepondu = false;
+
+function afficherEcran(nom) {
+  document.querySelectorAll(".ecran").forEach(ecran => {
+    ecran.classList.toggle("actif", ecran.id === nom);
+  });
+}
+
+function commencer(matiere) {
+  matiereActuelle = matiere;
+  questionsActuelles = [...banqueQuestions[matiere]];
+
+  position = 0;
+  score = 0;
+  aRepondu = false;
+
+  afficherEcran("quiz");
+  afficherQuestion();
+}
+
+function afficherQuestion() {
+  aRepondu = false;
+
+  const question = questionsActuelles[position];
+
+  element("nomMatiere").textContent =
+    nomsMatieres[matiereActuelle];
+
+  element("numeroQuestion").textContent =
+    (position + 1) + " / " + questionsActuelles.length;
+
+  element("progression").style.width =
+    (position / questionsActuelles.length * 100) + "%";
+
+  element("question").textContent = question.question;
+
+  element("correction").hidden = true;
+  element("suivant").hidden = true;
+
+  const zone = element("reponses");
+  zone.innerHTML = "";
+
+  question.reponses.forEach((texte, index) => {
+    const bouton = document.createElement("button");
+
+    bouton.type = "button";
+    bouton.className = "reponse";
+
+    bouton.textContent =
+      String.fromCharCode(65 + index) + ". " + texte;
+
+    bouton.addEventListener("click", () => {
+      verifierReponse(index);
+    });
+
+    zone.appendChild(bouton);
+  });
+}
+
+function verifierReponse(choix) {
+  if (aRepondu) return;
+
+  aRepondu = true;
+
+  const question = questionsActuelles[position];
+  const correcte = choix === question.bonne;
+
+  if (correcte) {
+    score++;
+  }
+
+  const boutons = document.querySelectorAll(
+    "#reponses button"
+  );
+
+  boutons.forEach((bouton, index) => {
+    bouton.disabled = true;
+
+    if (index === question.bonne) {
+      bouton.classList.add("correct");
+    }
+
+    if (index === choix && !correcte) {
+      bouton.classList.add("incorrect");
+    }
+  });
+
+  element("verdict").textContent =
+    correcte
+      ? "✅ Bonne réponse !"
+      : "❌ Pas tout à fait !";
+
+  element("explication").textContent =
+    question.explication;
+
+  element("correction").hidden = false;
+
+  const derniereQuestion =
+    position === questionsActuelles.length - 1;
+
+  element("suivant").textContent =
+    derniereQuestion
+      ? "Voir mon score →"
+      : "Question suivante →";
+
+  element("suivant").hidden = false;
+}
+
+function questionSuivante() {
+  if (!aRepondu) return;
+
+  position++;
+
+  if (position >= questionsActuelles.length) {
+    terminer();
+  } else {
+    afficherQuestion();
+  }
+}
+
+function terminer() {
+  const total = questionsActuelles.length;
+  const pourcentage = Math.round(score * 100 / total);
+
+  element("scoreFinal").textContent =
+    score + " / " + total;
+
+  element("pourcentage").textContent = pourcentage;
+  element("pointsGagnes").textContent = score * 25;
+
+  if (score === total) {
+    element("messageFinal").textContent =
+      "🌟 Parfait ! Tu maîtrises ce défi.";
+  } else if (score >= 2) {
+    element("messageFinal").textContent =
+      "👏 Bien joué ! Continue à progresser.";
+  } else {
+    element("messageFinal").textContent =
+      "💪 Chaque erreur te permet d'apprendre.";
+  }
+
+  element("progression").style.width = "100%";
+
+  afficherEcran("resultats");
+}
+
+/* =====================================
+   ACTIVATION DES BOUTONS
+   ===================================== */
+
+document.querySelectorAll("[data-matiere]").forEach(
+  bouton => {
+    bouton.addEventListener("click", () => {
+      commencer(bouton.dataset.matiere);
+    });
+  }
+);
+
+element("suivant").addEventListener(
+  "click",
+  questionSuivante
+);
+
+element("retour").addEventListener("click", () => {
+  afficherEcran("accueil");
+});
+
+element("rejouer").addEventListener("click", () => {
+  commencer(matiereActuelle);
+});
+
+element("changerMatiere").addEventListener("click", () => {
+  afficherEcran("accueil");
+});
+
+</script>
+
+</body>
+</html>

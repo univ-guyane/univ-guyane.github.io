@@ -1,0 +1,484 @@
+
+/* =========================================
+   CAMPUS QUEST MINI - UNIVERSITE DE GUYANE
+   Design interactif, compact et responsive
+   ========================================= */
+
+:root {
+  --fond: #0b1025;
+  --carte: #192242;
+  --carte-claire: #263158;
+  --violet: #9678ff;
+  --cyan: #54d5f3;
+  --texte: #f5f7ff;
+  --secondaire: #b3c0dc;
+  --vert: #34d399;
+  --rouge: #fb7185;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--fond);
+  color: var(--texte);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+/* IMPORTANT :
+   Le professeur prévoit une zone de 420 px.
+   Le contenu reste utilisable grâce au
+   défilement intérieur.
+*/
+
+.campus-quest {
+  width: 100%;
+  height: 420px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background:
+    radial-gradient(
+      ellipse at 80% 0%,
+      #34245c 0%,
+      transparent 55%
+    ),
+    linear-gradient(145deg, #111a36, #0b1025);
+  scrollbar-color: #7059b8 #111a36;
+}
+
+.entete {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: #101830f0;
+  border-bottom: 1px solid #3c4568;
+}
+
+.logo {
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: var(--violet);
+}
+
+.etiquette {
+  padding: 5px 9px;
+  border: 1px solid #6654a0;
+  border-radius: 20px;
+  background: #342853;
+  color: #e1d8ff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+main {
+  width: min(720px, 94%);
+  margin: 0 auto;
+  padding: 18px 0 15px;
+}
+
+.ecran {
+  display: none;
+  animation: apparition 0.25s ease;
+}
+
+.ecran.actif {
+  display: block;
+}
+
+@keyframes apparition {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.introduction {
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: 1px solid #51417b;
+  background: linear-gradient(
+    115deg,
+    #342354,
+    #1b2d54
+  );
+  text-align: center;
+}
+
+.petit-titre {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #bca9ff;
+  letter-spacing: 1px;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+.introduction h1 {
+  font-size: clamp(21px, 4vw, 32px);
+  line-height: 1.2;
+  margin-bottom: 8px;
+  color: white;
+}
+
+.introduction p {
+  color: #d1dcf3;
+  margin-bottom: 0;
+}
+
+#accueil > h2 {
+  margin: 18px 0 12px;
+  font-size: 17px;
+}
+
+/* MATIERES */
+
+.matieres {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.matiere {
+  min-height: 134px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 13px 10px;
+  background: var(--carte);
+  color: var(--texte);
+  border: 1px solid #424c76;
+  border-radius: 13px;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.matiere:hover {
+  background: var(--carte-claire);
+  border-color: var(--violet);
+  transform: translateY(-3px);
+}
+
+.matiere .emoji {
+  font-size: 28px;
+}
+
+.matiere strong {
+  font-size: 13px;
+}
+
+.matiere small {
+  color: var(--secondaire);
+  font-size: 10px;
+}
+
+.fleche {
+  font-weight: 800;
+  font-size: 11px;
+  color: #bca8ff;
+}
+
+.note {
+  text-align: center;
+  margin: 14px 0 0;
+  font-size: 11px;
+  color: var(--secondaire);
+}
+
+/* INTERFACE QUIZ */
+
+.haut-quiz {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.retour {
+  background: #273153;
+  color: white;
+  border: 1px solid #48547c;
+  border-radius: 9px;
+  padding: 7px 12px;
+}
+
+.retour:hover {
+  background: #394775;
+}
+
+#nomMatiere {
+  color: #ccbaff;
+}
+
+#numeroQuestion {
+  color: var(--secondaire);
+}
+
+.barre {
+  height: 9px;
+  overflow: hidden;
+  background: #2b3458;
+  border-radius: 20px;
+  margin-bottom: 17px;
+}
+
+.remplissage {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--violet),
+    var(--cyan)
+  );
+  border-radius: 20px;
+  transition: width 0.3s;
+}
+
+#quiz h2 {
+  font-size: clamp(17px, 3vw, 22px);
+  margin-bottom: 16px;
+  line-height: 1.35;
+}
+
+.reponses {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.reponse {
+  min-height: 52px;
+  background: var(--carte);
+  color: white;
+  text-align: left;
+  border: 1px solid #455378;
+  border-radius: 10px;
+  padding: 11px 13px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.reponse:not(:disabled):hover {
+  background: #354069;
+  border-color: var(--violet);
+}
+
+.reponse:disabled {
+  cursor: default;
+}
+
+.reponse.correct {
+  background: #145443;
+  border-color: var(--vert);
+}
+
+.reponse.incorrect {
+  background: #612a42;
+  border-color: var(--rouge);
+}
+
+.correction {
+  margin-top: 14px;
+  padding: 12px 15px;
+  background: #1d3353;
+  border-left: 4px solid var(--cyan);
+  border-radius: 8px;
+}
+
+.correction strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.correction p {
+  margin: 0;
+  color: #d5e4fa;
+  font-size: 12px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* BOUTONS */
+
+.bouton-principal,
+.bouton-secondaire {
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-weight: 800;
+  transition: 0.2s;
+}
+
+.bouton-principal {
+  color: white;
+  background: linear-gradient(
+    105deg,
+    #9369f4,
+    #536fe6
+  );
+}
+
+.bouton-secondaire {
+  color: white;
+  background: #344363;
+  border: 1px solid #526181;
+}
+
+.bouton-principal:hover,
+.bouton-secondaire:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+#suivant {
+  display: block;
+  margin: 16px 0 0 auto;
+}
+
+/* RESULTATS */
+
+.resultats {
+  text-align: center;
+  padding: 12px 0;
+}
+
+.trophee {
+  font-size: 48px;
+}
+
+.resultats h1 {
+  font-size: 24px;
+  margin-bottom: 7px;
+}
+
+.score {
+  font-size: 43px;
+  color: #bca7ff;
+  font-weight: 900;
+}
+
+#messageFinal {
+  color: #d1dcf3;
+  margin: 8px 0 16px;
+}
+
+.resultat-infos {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 12px 0 20px;
+}
+
+.resultat-infos span {
+  background: #202e50;
+  border: 1px solid #43547b;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 12px;
+}
+
+.boutons-fin {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* PIED DE PAGE */
+
+footer {
+  padding: 12px;
+  border-top: 1px solid #313b5b;
+  font-size: 10px;
+  text-align: center;
+  color: var(--secondaire);
+}
+
+/* ECRANS ETROITS */
+
+@media (max-width: 480px) {
+  .entete {
+    padding: 12px;
+  }
+
+  .logo {
+    font-size: 15px;
+  }
+
+  .etiquette {
+    font-size: 8px;
+  }
+
+  main {
+    width: 94%;
+  }
+
+  .matieres {
+    grid-template-columns: 1fr;
+  }
+
+  .matiere {
+    min-height: 95px;
+  }
+
+  .reponses {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
