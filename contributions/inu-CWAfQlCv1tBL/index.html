@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Souvenirs</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="dbh">
+    <canvas id="dbh-cv" aria-label="Quatre décors en pixel art : une chambre, un jardin, une forêt et une cuisine, au coucher du soleil"></canvas>
+  </div>
+
+  <script>
+  (function () {
+    var TW = 140, TH = 52, W = TW * 2, H = TH * 2;
+    var cv = document.getElementById('dbh-cv');
+    var ctx = cv.getContext('2d');
+    cv.width = W; cv.height = H;
+
+    var B = [[0,8,2,10],[12,4,14,6],[3,11,1,9],[15,7,13,5]];
+    // couleurs "lumière" (ciel, soleil, fenêtres) : presque intactes ; le reste est assombri
+    var GLOW = {'#ff9a2e':1,'#e8601c':1,'#ffe27a':1,'#b8403a':1,'#f08a2a':1,'#ffc24a':1,'#fff6b0':1,
+                '#ffd36a':1,'#c8452a':1,'#d8601c':1,'#b8431a':1,'#5a2a4a':1,'#2a1a3a':1};
+    var tcache = {};
+    function tint(h) {
+      if (tcache[h]) return tcache[h];
+      if (h === '#000') return (tcache[h] = '#12050b');
+      var r = parseInt(h.slice(1,3),16), g = parseInt(h.slice(3,5),16), b = parseInt(h.slice(5,7),16);
+      var m = GLOW[h] ? 0.08 : 0.38;
+      r += (26 - r) * m; g += (6 - g) * Math.min(1, m * 1.15); b += (16 - b) * m;
+      return (tcache[h] = 'rgb(' + (r|0) + ',' + (g|0) + ',' + (b|0) + ')');
+    }
+    function rect(x, y, w, h, c) { ctx.fillStyle = tint(c); ctx.fillRect(x, y, w, h); }
+    function dsky(y0, y1, cols) {
+      for (var y = y0; y < y1; y++) {
+        var t = (y - y0) / (y1 - y0 - 1) * (cols.length - 1), k = Math.min(cols.length - 2, Math.floor(t)), f = t - k;
+        for (var x = 0; x < TW; x++) px(x, y, (B[y & 3][x & 3] / 16 < f) ? cols[k + 1] : cols[k]);
+      }
+    }
+    function atmosphere() {
+      var x, y, s = 11;
+      // grain
+      for (var i = 0; i < 140; i++) {
+        s = (s * 1103515245 + 12345) & 0x7fffffff;
+        var gx = s % TW; s = (s * 1103515245 + 12345) & 0x7fffffff;
+        var gy = s % TH;
+        px(gx, gy, '#1a0610');
+      }
+      // vignette tramée
+      for (y = 0; y < TH; y++) for (x = 0; x < TW; x++) {
+        var dx = (x - TW / 2) / (TW / 2), dy = (y - TH / 2) / (TH / 2);
+        var d = dx * dx * 0.9 + dy * dy * 0.7;
+        if (B[y & 3][x & 3] / 16 < (d - 0.5) * 0.55) px(x, y, '#000');
+      }
+    }
+    function px(x, y, c) { rect(x, y, 1, 1, c); }
+    function ro(x, y, w, h, c) { rect(x, y, w, h, '#000'); rect(x + 1, y + 1, w - 2, h - 2, c); }
+    function disc(cx, cy, r, c) {
+      for (var y = -r; y <= r; y++) for (var x = -r; x <= r; x++)
+        if (x * x + y * y <= r * r + r * 0.4) px(cx + x, cy + y, c);
+    }
+    function co(cx, cy, r, c) { disc(cx, cy, r + 1, '#000'); disc(cx, cy, r, c); }
+    function ring(cx, cy, r, c) {
+      for (var y = -r; y <= r; y++) for (var x = -r; x <= r; x++) {
+        var d = x * x + y * y;
+        if (d <= r * r + 1 && d >= (r - 1.5) * (r - 1.5)) px(cx + x, cy + y, c);
+      }
+    }
+    function line(x0, y0, x1, y1, c) {
+      var dx = Math.abs(x1 - x0), dy = -Math.abs(y1 - y0);
+      var sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1, err = dx + dy;
+      while (true) {
+        px(x0, y0, c);
+        if (x0 === x1 && y0 === y1) break;
+        var e2 = 2 * err;
+        if (e2 >= dy) { err += dy; x0 += sx; }
+        if (e2 <= dx) { err += dx; y0 += sy; }
+      }
+    }
+    function tile(ox, oy, fn, f) {
+      ctx.save();
+      ctx.translate(ox, oy);
+      ctx.beginPath(); ctx.rect(0, 0, TW, TH); ctx.clip();
+      fn(f);
+      atmosphere();
+      // cadre noir
+      rect(0, 0, TW, 1, '#000'); rect(0, TH - 1, TW, 1, '#000');
+      rect(0, 0, 1, TH, '#000'); rect(TW - 1, 0, 1, TH, '#000');
+      ctx.restore();
+    }
+
+    /* ---------------------------------------------------- CHAMBRE */
+    function chambre(f) {
+      var x, y;
+      rect(0, 0, 140, 34, '#6b3a52');
+      for (x = 5; x < 140; x += 10) rect(x, 0, 1, 34, '#633350');
+      rect(0, 32, 140, 2, '#3b1f33');
+      rect(0, 34, 140, 18, '#4a2a3a');
+      rect(0, 40, 140, 1, '#3b2030'); rect(0, 46, 140, 1, '#3b2030');
+      for (x = 10; x < 140; x += 22) {
+        rect(x, 34, 1, 6, '#3b2030'); rect(x + 11, 40, 1, 6, '#3b2030'); rect(x, 46, 1, 6, '#3b2030');
+      }
+      // rayon de lumière au sol
+      for (y = 34; y < 52; y++) rect(14 + Math.round((y - 33) * 1.3), y, 30, 1, '#6a3e4c');
+
+      // fenêtre
+      ro(19, 3, 30, 24, '#4a2430');
+      rect(22, 6, 24, 18, '#ff9a2e');
+      rect(22, 6, 24, 5, '#e8601c');
+      disc(36, 17, 4, '#ffe27a');
+      rect(22, 20, 24, 4, '#b8431a');
+      rect(24, 18, 4, 3, '#b8431a'); rect(40, 17, 5, 4, '#b8431a'); rect(31, 19, 3, 2, '#b8431a');
+      rect(33, 6, 2, 18, '#4a2430'); rect(22, 14, 24, 2, '#4a2430');
+      ro(13, 2, 7, 27, '#d8601c'); ro(48, 2, 7, 27, '#d8601c');
+      ro(15, 27, 38, 3, '#7a3b1c');
+
+      // affiche de fusée
+      ro(60, 5, 16, 22, '#243a6a');
+      rect(66, 9, 4, 10, '#f0f0f0'); rect(67, 7, 2, 2, '#d8452a');
+      rect(65, 16, 1, 4, '#d8452a'); rect(70, 16, 1, 4, '#d8452a');
+      rect(67, 19, 2, 2, '#ffc24a');
+      px(62, 8, '#fff2a0'); px(73, 12, '#fff2a0'); px(63, 23, '#fff2a0'); px(72, 24, '#fff2a0');
+
+      // étagère, nounours, livres
+      ro(80, 16, 30, 3, '#7a3b1c');
+      rect(84, 19, 2, 3, '#5a2c14'); rect(104, 19, 2, 3, '#5a2c14');
+      ro(86, 9, 9, 8, '#b06a3a'); ro(87, 3, 7, 7, '#b06a3a');
+      px(88, 2, '#000'); px(93, 2, '#000');
+      px(89, 6, '#000'); px(92, 6, '#000'); rect(90, 7, 2, 1, '#e0a070');
+      ro(98, 9, 4, 8, '#4a6a9a'); ro(102, 10, 4, 7, '#9a3a4a'); ro(106, 8, 4, 9, '#3a6a4a');
+
+      // lit
+      ro(112, 24, 6, 24, '#7a3b1c');
+      ro(76, 36, 38, 7, '#e8dcef');
+      ro(98, 32, 14, 6, '#f0e8f8');
+      ro(76, 38, 28, 8, '#7a6aa0');
+      rect(80, 41, 18, 1, '#5a4a80'); rect(86, 39, 1, 5, '#5a4a80');
+      ro(74, 44, 44, 4, '#7a3b1c');
+      ro(75, 47, 3, 4, '#5a2c14'); ro(113, 47, 3, 4, '#5a2c14');
+
+      // table de nuit + lampe
+      ro(122, 38, 16, 12, '#7a3b1c');
+      rect(124, 43, 12, 1, '#3b1f13'); px(129, 46, '#e0b060');
+      ro(127, 32, 2, 6, '#3a2030');
+      ro(124, 22, 8, 10, f ? '#ffd36a' : '#ffc24a');
+
+      // camion cassé + oreiller par terre
+      ro(24, 42, 12, 5, '#d83a2a'); ro(31, 39, 6, 4, '#d83a2a');
+      ro(25, 46, 4, 4, '#2a2a2a'); ro(33, 46, 4, 4, '#2a2a2a');
+      co(44, 48, 2, '#2a2a2a');
+      ro(50, 44, 14, 5, '#f0e8f8');
+    }
+
+    /* ---------------------------------------------------- JARDIN */
+    function jardin(f) {
+      var x, y, i;
+      dsky(0, 32, ['#5a2a4a', '#b8403a', '#f08a2a', '#ffc24a']);
+      disc(52, 24, 7, '#fff6b0');
+      for (x = 0; x < 140; x++) {
+        var h = 6 + Math.round(3 * Math.sin(x * 0.3) + 2 * Math.sin(x * 0.7));
+        rect(x, 30 - h, 1, h + 3, '#3a1a2a');
+      }
+      rect(0, 32, 140, 20, '#4a3036');
+      for (i = 0; i < 34; i++) px((i * 37) % 140, 34 + (i * 13) % 17, '#6a4a3a');
+
+      // palissade
+      for (i = 0; i < 10; i++) {
+        var top = 22 + (i % 3 === 0 ? 1 : 0);
+        ro(i * 7, top, 7, 38 - top, '#8a4a2a');
+        rect(i * 7 + 1, top + 1, 5, 1, '#c8602a');
+      }
+      rect(0, 28, 70, 1, '#4a2a1a');
+      // drap
+      ro(22, 21, 14, 14, '#a898c8'); rect(27, 22, 1, 12, '#8878a8'); rect(32, 22, 1, 12, '#8878a8');
+      rect(22, 20, 2, 2, '#000'); rect(34, 20, 2, 2, '#000');
+
+      // cabane
+      ro(82, 8, 56, 8, '#4a2020'); rect(83, 9, 54, 1, '#8a3a2a');
+      ro(86, 16, 48, 36, '#6a3a2a');
+      for (x = 92; x < 132; x += 6) rect(x, 17, 1, 34, '#4a2a1a');
+      ro(98, 22, 18, 30, '#3a1a1a');
+      rect(111, 23, 4, 28, '#0a0508');
+      rect(104, 36, 4, 2, '#c8a050');
+      ro(122, 22, 10, 9, '#1a0a14'); rect(126, 23, 1, 7, '#6a3a2a'); rect(123, 26, 8, 1, '#6a3a2a');
+      // tonneau
+      ro(74, 34, 11, 16, '#7a3b1c'); rect(75, 38, 9, 1, '#2a1410'); rect(75, 45, 9, 1, '#2a1410');
+
+      // pelle + arrosoir
+      line(131, 24, 127, 49, '#a86a3a'); line(132, 24, 128, 49, '#6a3a1c');
+      ro(123, 46, 7, 5, '#8a8aa8');
+      ro(133, 42, 8, 8, '#7a7a98');
+
+      // vélo d'enfant
+      ring(34, 46, 5, '#000'); ring(34, 46, 4, '#2a2a3a');
+      ring(54, 46, 5, '#000'); ring(54, 46, 4, '#2a2a3a');
+      line(34, 46, 41, 38, '#d83a2a'); line(41, 38, 51, 38, '#d83a2a');
+      line(51, 38, 54, 46, '#d83a2a'); line(41, 38, 46, 46, '#d83a2a'); line(46, 46, 34, 46, '#d83a2a');
+      rect(38, 36, 5, 2, '#000'); line(51, 38, 50, 33, '#d83a2a'); rect(48, 32, 5, 2, '#000');
+
+      // grand arbre à gauche
+      ro(0, 0, 10, 52, '#2a1420'); rect(9, 1, 1, 50, '#8a3a24');
+      co(7, 4, 10, '#3a2a3a'); co(22, 1, 9, '#3a2a3a'); co(15, 11, 7, '#3a2a3a');
+      px(16, 14, '#c8452a'); px(22, 6, '#c8452a'); px(10, 12, '#c8452a'); px(28, 2, '#c8452a');
+    }
+
+    /* ---------------------------------------------------- FORET */
+    function foret(f) {
+      var x, y, i;
+      dsky(0, 34, ['#2a1a3a', '#5a2a4a', '#c8452a', '#f08a2a']);
+      disc(96, 28, 6, '#ffd36a');
+      for (i = 0; i < 12; i++) rect(4 + i * 12, 10 + (i * 5) % 8, 3, 26, '#4a2040');
+      rect(0, 34, 140, 18, '#2a1a24');
+      // chemin
+      for (y = 34; y < 52; y++) {
+        var t = y - 34, cx = 70 + Math.round(6 * Math.sin(t * 0.25)), hw = 3 + Math.round(t * 1.5);
+        rect(cx - hw, y, hw * 2, 1, '#7a4a3a');
+        px(cx - hw, y, '#3a2020'); px(cx + hw - 1, y, '#3a2020');
+      }
+      for (i = 0; i < 30; i++) px((i * 41) % 140, 36 + (i * 11) % 15, '#4a3a2a');
+      rect(73, 43, 4, 3, '#d83a2a'); rect(73, 46, 4, 1, '#000');
+
+      // troncs
+      ro(8, 0, 10, 52, '#3a1c24'); rect(11, 10, 2, 7, '#241018'); rect(14, 26, 2, 9, '#241018'); rect(16, 1, 1, 50, '#8a3a24');
+      ro(40, 0, 6, 42, '#3a1c24'); rect(43, 14, 1, 6, '#241018');
+      ro(114, 0, 12, 52, '#3a1c24'); rect(118, 18, 2, 8, '#241018'); rect(121, 34, 2, 7, '#241018'); rect(115, 1, 1, 50, '#8a3a24');
+
+      // feuillage
+      for (i = 0; i < 14; i++) co(i * 10 + (i % 2) * 3, 3 + (i % 3), 7, '#2a1c3a');
+      px(20, 8, '#c8452a'); px(54, 10, '#c8452a'); px(88, 7, '#c8452a'); px(104, 10, '#c8452a'); px(70, 5, '#c8452a');
+
+      // lucioles
+      var ff = [[30, 30], [56, 22], [96, 38], [104, 18], [78, 28]];
+      for (i = 0; i < ff.length; i++) {
+        if ((f + i) % 2) rect(ff[i][0], ff[i][1], 2, 2, '#ffe27a');
+        else px(ff[i][0], ff[i][1], '#a8803a');
+      }
+    }
+
+    /* ---------------------------------------------------- CUISINE */
+    function cuisine(f) {
+      var x, y;
+      rect(0, 0, 140, 32, '#8a5a46');
+      rect(0, 20, 140, 12, '#d8c0a0');
+      for (x = 0; x < 140; x += 6) rect(x, 20, 1, 12, '#b8a080');
+      rect(0, 26, 140, 1, '#b8a080');
+      rect(0, 32, 140, 20, '#4a2a2a');
+      for (y = 32; y < 52; y += 6) for (x = ((y - 32) / 6 % 2) * 6; x < 140; x += 12) rect(x, y, 6, 6, '#5a3434');
+      for (y = 32; y < 52; y++) rect(12 + Math.round((y - 31) * 1.2), y, 22, 1, '#7a4a42');
+
+      // fenêtre
+      ro(10, 4, 28, 18, '#2a1220');
+      rect(12, 6, 24, 14, '#ff9a2e'); rect(12, 6, 24, 4, '#e8601c');
+      disc(24, 15, 3, '#ffe27a'); rect(12, 16, 24, 4, '#b8431a');
+      rect(23, 6, 2, 14, '#2a1220'); rect(12, 12, 24, 1, '#2a1220');
+
+      // horloge
+      co(50, 10, 6, '#f0e8e0'); line(50, 10, 50, 6, '#000'); line(50, 10, 53, 10, '#000');
+
+      // placards hauts
+      ro(62, 2, 36, 16, '#6a3a2a'); rect(79, 3, 1, 14, '#3a1a1a'); px(77, 10, '#e0b060'); px(82, 10, '#e0b060');
+
+      // plan de travail
+      ro(54, 23, 54, 3, '#e8d8b8');
+      ro(54, 26, 54, 16, '#6a3a2a');
+      rect(80, 27, 1, 14, '#3a1a1a'); px(78, 33, '#e0b060'); px(83, 33, '#e0b060');
+      rect(60, 29, 14, 1, '#4a2a1a');
+      // casserole + vapeur
+      ro(90, 15, 14, 8, '#8a8aa0'); rect(91, 16, 12, 1, '#b8b8d0');
+      var sy = f ? 9 : 10;
+      px(94, sy, '#e8e0f0'); px(97, sy - 2, '#e8e0f0'); px(100, sy, '#e8e0f0');
+
+      // frigo
+      ro(110, 4, 26, 38, '#cfe0ea'); rect(111, 18, 24, 1, '#7a9aaa');
+      rect(114, 8, 2, 6, '#7a9aaa'); rect(114, 22, 2, 9, '#7a9aaa');
+      ro(121, 8, 9, 8, '#fff0a0'); px(123, 13, '#d8452a'); px(125, 11, '#d8452a'); px(127, 13, '#3a6a9a'); px(126, 14, '#3a6a9a');
+
+      // table et chaises
+      ro(10, 36, 28, 4, '#9a5a2a');
+      ro(12, 40, 3, 10, '#7a3b1c'); ro(33, 40, 3, 10, '#7a3b1c');
+      ro(28, 31, 5, 5, '#f0e8e0'); ro(17, 34, 8, 2, '#ffffff');
+      ro(2, 28, 3, 12, '#7a3b1c'); ro(2, 38, 8, 3, '#7a3b1c'); ro(3, 41, 2, 8, '#7a3b1c');
+      ro(41, 28, 3, 12, '#7a3b1c'); ro(38, 38, 8, 3, '#7a3b1c'); ro(41, 41, 2, 8, '#7a3b1c');
+    }
+
+    var frame = 0;
+    function draw() {
+      rect(0, 0, W, H, '#000');
+      tile(0, 0, chambre, frame);
+      tile(TW, 0, jardin, frame);
+      tile(0, TH, foret, frame);
+      tile(TW, TH, cuisine, frame);
+    }
+    draw();
+
+    var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!calm) setInterval(function () { frame = (frame + 1) % 2; draw(); }, 700);
+  })();
+  </script>
+</body>
+</html>
