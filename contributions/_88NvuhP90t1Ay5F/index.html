@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Top 20 des entreprises de jeux vidéo</title>
+<meta name="description" content="Top 20 des entreprises de jeux vidéo les plus connues, avec leur licence phare, leurs chiffres et un classement boursier mondial.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07070d;--card:#12121c;--ink:#f2f2ff;--muted:#9a9ab8;--line:#2a2a40;--pink:#ff2e97;--cyan:#00e5ff;--yel:#ffd300;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px)}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--yel);outline-offset:2px}
+.px{font-family:"Press Start 2P","Courier New",monospace}
+.hero{text-align:center;padding:52px 20px 64px;background:linear-gradient(#07070d,#161034);border-bottom:4px solid var(--pink);box-shadow:0 6px 24px rgba(255,46,151,.35)}
+.hero h1{margin:0 0 18px;font-family:"Press Start 2P","Courier New",monospace;font-weight:400;font-size:clamp(1rem,3.6vw,1.9rem);line-height:1.6;color:var(--yel);text-shadow:3px 3px 0 var(--pink)}
+.start{margin:0;font-family:"Press Start 2P","Courier New",monospace;font-size:.7rem;color:var(--cyan);animation:blink 1.1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.deco{display:inline-block;margin:0 8px;font-size:1.6rem;animation:flotte 3s ease-in-out infinite}
+.deco:nth-child(2){animation-delay:-1s}.deco:nth-child(3){animation-delay:-2s}
+@keyframes flotte{50%{transform:translateY(-8px)}}
+.wrap{max-width:1150px;margin:0 auto;padding:0 20px}
+.search{margin-top:-24px;position:relative;z-index:2}
+.search input{width:100%;padding:14px 18px;border:3px solid var(--cyan);border-radius:0;background:#000;box-shadow:0 0 16px rgba(0,229,255,.35)}
+h2{font-family:"Press Start 2P","Courier New",monospace;font-weight:400;font-size:clamp(.8rem,2.4vw,1.05rem);line-height:1.6;color:var(--cyan);margin:40px 0 8px}
+.note{color:var(--muted);font-size:.85rem;margin:0 0 14px}
+.sort{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px}
+.sort span{color:var(--muted);font-size:.85rem}
+.pill{background:#000;border:2px solid var(--line);border-radius:0;padding:7px 11px;cursor:pointer;font-family:"Press Start 2P","Courier New",monospace;font-size:.58rem}
+.pill:hover{border-color:var(--cyan)}
+.pill[aria-pressed="true"]{background:var(--yel);color:#000;border-color:var(--yel);box-shadow:3px 3px 0 var(--pink)}
+.table-card{background:var(--card);border:3px solid var(--line);box-shadow:6px 6px 0 rgba(255,46,151,.5);overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:820px}
+th{text-align:left;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:13px 12px;border-bottom:3px solid var(--line);white-space:nowrap}
+td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+.big tbody tr{background:color-mix(in srgb,var(--c) 10%,var(--card))}
+.big tbody tr:hover{box-shadow:inset 0 0 0 2px var(--c)}
+.big td:first-child{border-left:6px solid var(--c)}
+.num{text-align:center;width:64px;font-family:"Press Start 2P","Courier New",monospace;font-size:.85rem}
+.big .num{color:var(--c)}
+.r{text-align:right;white-space:nowrap}
+.star{background:none;border:none;cursor:pointer;font-size:1.25rem;color:var(--muted)}
+.star:hover{transform:scale(1.25)}
+.star[aria-pressed="true"]{color:var(--yel)}
+.mascot{text-align:center;width:100px}
+.mascot-img{width:64px;height:64px;margin:0 auto 4px;border-radius:50%;display:grid;place-items:center;font-size:2rem;background:radial-gradient(circle at 30% 25%,#fff,color-mix(in srgb,var(--c) 55%,#fff));box-shadow:0 4px 0 var(--c);overflow:hidden}
+.mascot-img img{width:100%;height:100%;object-fit:contain}
+tr:hover .mascot-img{animation:saute .5s ease}
+@keyframes saute{40%{transform:translateY(-10px) scale(1.08)}}
+.mascot small{color:var(--muted);font-size:.74rem;display:block;line-height:1.2}
+.name{font-size:1.02rem;font-weight:700}
+.sub{color:var(--muted);font-size:.8rem}
+.lab{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em}
+.phare{font-size:1.08rem;font-weight:800;color:var(--c)}
+.games{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;max-width:280px}
+.games span{background:color-mix(in srgb,var(--c) 20%,#000);border:1px solid var(--c);padding:1px 8px;font-size:.76rem}
+.fig{font-size:.84rem;white-space:nowrap}.fig b{font-weight:600;color:var(--yel)}
+details{max-width:290px}summary{cursor:pointer;font-weight:600}
+ul.award{margin:6px 0 0;padding-left:18px;font-size:.78rem;color:var(--muted)}
+ul.award li{margin-bottom:5px}
+.th{background:none;border:none;color:inherit;font:inherit;text-transform:inherit;letter-spacing:inherit;cursor:pointer;padding:0;white-space:nowrap}
+.th:hover{color:var(--cyan)}
+.th.on{color:var(--yel)}
+table.big{min-width:1080px}
+.lien{background:none;border:none;color:inherit;font:inherit;font-size:1.02rem;font-weight:700;cursor:pointer;text-align:left;padding:0}
+.lien:hover{color:var(--cyan);text-decoration:underline}
+.fiche td{background:#0b0b14;border-left:6px solid var(--c);padding:14px 20px;font-size:.92rem}
+.fiche p{margin:6px 0 0;max-width:80ch}
+.musique{position:fixed;right:14px;bottom:14px;z-index:20;background:#000;border:2px solid var(--cyan);color:var(--cyan);padding:10px 12px;font-family:"Press Start 2P","Courier New",monospace;font-size:.55rem;cursor:pointer;box-shadow:3px 3px 0 var(--pink)}
+.musique[aria-pressed="true"]{background:var(--cyan);color:#000}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+footer{max-width:1150px;margin:0 auto;padding:28px 20px 56px;color:var(--muted);font-size:.8rem}
+.arrive{animation:arrive .4s steps(6) backwards}
+@keyframes arrive{from{opacity:0;transform:translateX(-20px)}}
+@media(max-width:720px){.col-x{display:none}table,table.big{min-width:0}.mascot{width:76px}.mascot-img{width:52px;height:52px;font-size:1.5rem}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<button id="musique" class="musique" aria-pressed="false" aria-label="Activer ou couper la musique">♪ MUSIQUE : OFF</button>
+<header class="hero">
+  <div aria-hidden="true"><span class="deco">👾</span><span class="deco">🕹️</span><span class="deco">🎮</span></div>
+  <h1>TOP 20 DES ENTREPRISES<br>DE JEUX VIDÉO</h1>
+  <p class="start">▶ PRESS START</p>
+</header>
+
+<div class="wrap">
+  <div class="search"><input id="recherche" type="search" placeholder="Cherche une entreprise ou un jeu (ex : Mario, Minecraft)…" aria-label="Rechercher"></div>
+
+  <h2>Les 20 entreprises les plus connues</h2>
+  <p class="note">Clique sur le titre d’une colonne pour classer (clique encore pour inverser l’ordre). La popularité suit l’ordre de ta liste de départ : 1 = la plus connue. Chiffres sur les 12 derniers mois, en dollars (« — » : entreprise privée ou filiale sans chiffres propres). Game Awards : victoires et nominations au « Jeu de l’année », les autres catégories ne sont pas comptées (sauf mention).</p>
+  <div class="table-card">
+    <table class="big">
+      <thead><tr id="th20"></tr></thead>
+      <tbody id="corps"></tbody>
+    </table>
+    <div id="vide" class="empty" hidden>Aucun résultat.</div>
+  </div>
+
+  <h2>Classement boursier mondial</h2>
+  <p class="note">Les 100 premières sur 231 entreprises cotées (source : companiesmarketcap.com, consulté le 5 novembre 2026). Clique sur le titre d’une colonne pour classer.</p>
+  <div class="table-card">
+    <table>
+      <thead><tr id="thm"></tr></thead>
+      <tbody id="monde"></tbody>
+    </table>
+    <div id="vide2" class="empty" hidden>Aucun résultat.</div>
+  </div>
+</div>
+<footer>Projet L1 Informatique, Université de Guyane. Données financières : companiesmarketcap.com (en dollars, susceptibles de changer chaque jour). Récompenses : Game Awards 2014–2025.</footer>
+
+<script>
+// ---- TOP 20 (modifie ici) ----
+// Colonnes : nom, pays, couleur, licence phare, autres jeux, mascotte, emoji, nom du fichier image, nom en bourse, note
+const top20 = [
+["Nintendo","Japon","#ff3b3b","Mario","Mario, Zelda, Pokémon","Mario","🍄","nintendo","Nintendo",""],
+["Sony Interactive Entertainment (PlayStation)","Japon","#7b8cff","God of War","God of War, Spider-Man, The Last of Us","Astro Bot","🤖","playstation","Sony","Chiffres du groupe Sony"],
+["Microsoft Gaming (Xbox)","États-Unis","#3ddc4a","Minecraft","Halo, Minecraft, Forza","Master Chief","🪖","xbox","Microsoft","Chiffres du groupe Microsoft"],
+["Rockstar Games","États-Unis","#ffc21a","Grand Theft Auto","GTA, Red Dead Redemption","Étoile Rockstar","⭐","rockstar","Take-Two Interactive","Chiffres de la maison mère Take-Two"],
+["Electronic Arts (EA)","États-Unis","#ff5a3c","EA Sports FC","FC, The Sims, Battlefield","Logo EA","🎮","ea","","Non cotée dans la source"],
+["Ubisoft","France","#00d4ff","Assassin’s Creed","Assassin’s Creed, Far Cry, Rayman","Rayman","🎪","ubisoft","Ubisoft",""],
+["SEGA","Japon","#1e90ff","Sonic","Sonic, Yakuza, Persona","Sonic","🦔","sega","Sega Sammy","Chiffres de la maison mère Sega Sammy"],
+["Epic Games","États-Unis","#d9d9e8","Fortnite","Fortnite, Rocket League","Jonesy","🪂","epic-games","","Entreprise privée"],
+["Activision","États-Unis","#ff9900","Call of Duty","Call of Duty, Crash Bandicoot","Crash Bandicoot","🦊","activision","","Filiale de Microsoft"],
+["Capcom","Japon","#b05cff","Resident Evil","Resident Evil, Street Fighter, Monster Hunter","Mega Man","🔵","capcom","Capcom",""],
+["Bandai Namco","Japon","#ff4fa3","Pac-Man","Tekken, Dragon Ball, Pac-Man","Pac-Man","🟡","bandai-namco","Bandai Namco",""],
+["Konami","Japon","#ff6a3d","Metal Gear","Metal Gear, Silent Hill, eFootball","Solid Snake","🕵️","konami","Konami",""],
+["Valve","États-Unis","#ff7a1a","Counter-Strike","Steam, Half-Life, Counter-Strike","Gordon Freeman","🔧","valve","","Entreprise privée"],
+["Square Enix","Japon","#19d3c5","Final Fantasy","Final Fantasy, Dragon Quest","Cactuar","🌵","square-enix","Square Enix",""],
+["Take-Two Interactive","États-Unis","#e5c07b","Grand Theft Auto","GTA, NBA 2K, Civilization","Aucune mascotte","🎲","take-two","Take-Two Interactive",""],
+["Blizzard Entertainment","États-Unis","#37a0ff","Warcraft","Warcraft, Diablo, Overwatch","Murloc","🐟","blizzard","","Filiale de Microsoft"],
+["Mojang Studios","Suède","#62d04a","Minecraft","Minecraft","Creeper","🟩","mojang","","Filiale de Microsoft"],
+["Riot Games","États-Unis","#ff4655","League of Legends","League of Legends, Valorant","Teemo","🛡️","riot-games","","Filiale de Tencent"],
+["HoYoverse","Chine","#7aa2ff","Genshin Impact","Genshin Impact, Honkai: Star Rail","Paimon","✨","hoyoverse","","Entreprise privée"],
+["Tencent Games","Chine","#2fd0a0","Honor of Kings","PUBG Mobile, Honor of Kings","Pingouin QQ","🐧","tencent","Tencent","Chiffres de la maison mère Tencent"]
+];
+
+// ---- RÉCOMPENSES : "Jeu de l’année" aux Game Awards 2014-2025 (clé = nom du fichier image ; g = victoires, n = nominations, victoires incluses) ----
+const recompenses = {
+ "nintendo": {g:1, n:11, l:["🏆 The Legend of Zelda: Breath of the Wild (2017)","🎯 Bayonetta 2 (2014), Super Mario Maker (2015), Super Mario Odyssey (2017), Super Smash Bros. Ultimate (2019), Animal Crossing: New Horizons (2020), Metroid Dread (2021), Xenoblade Chronicles 3 (2022), Zelda: Tears of the Kingdom et Super Mario Bros. Wonder (2023), Donkey Kong Bananza (2025)"]},
+ "playstation": {g:3, n:14, l:["🏆 God of War (2018), The Last of Us Part II (2020), Astro Bot (2024). Record de victoires et de nominations","🎯 Bloodborne (2015), Uncharted 4 (2016), Horizon Zero Dawn (2017), Marvel’s Spider-Man (2018), Death Stranding (2019), Ghost of Tsushima (2020), Ratchet & Clank: Rift Apart (2021), God of War Ragnarök et Horizon Forbidden West (2022), Marvel’s Spider-Man 2 (2023), Death Stranding 2 (2025)"]},
+ "xbox": {g:2, n:8, l:["🏆 Overwatch (Blizzard, 2016) et Sekiro: Shadows Die Twice (publié par Activision, 2019). Ces studios appartiennent à Microsoft depuis 2023","🎯 Hearthstone (2014), Fallout 4 (2015), Doom (2016), Doom Eternal (2020), Deathloop (2021), Psychonauts 2 (2021). Bethesda appartient à Microsoft depuis 2021"]},
+ "rockstar": {g:0, n:1, l:["🎯 Red Dead Redemption 2 (2018)","🏆 Spike Video Game Awards, ancêtres des Game Awards : Red Dead Redemption (2010) et GTA V (2013) élus jeu de l’année"]},
+ "ea": {g:2, n:3, l:["🏆 Dragon Age: Inquisition (2014), It Takes Two (2021)","🎯 Titanfall 2 (2016)"]},
+ "ubisoft": {g:0, n:1, l:["🎯 Assassin’s Creed Odyssey (2018)"]},
+ "capcom": {g:0, n:4, l:["🎯 Monster Hunter: World (2018), Resident Evil 2 (2019), Resident Evil Village (2021), Resident Evil 4 (2023). Record de nominations sans victoire, à égalité avec Bethesda"]},
+ "sega": {g:0, n:1, l:["🎯 Metaphor: ReFantazio (2024)"]},
+ "epic-games": {g:0, n:1, l:["🎯 Alan Wake 2 (2023), publié par Epic Games Publishing"]},
+ "activision": {g:1, n:1, l:["🏆 Sekiro: Shadows Die Twice (2019), développé par FromSoftware. Activision appartient à Microsoft depuis 2023"]},
+ "bandai-namco": {g:1, n:3, l:["🏆 Elden Ring (2022), édité par Bandai Namco, développé par FromSoftware","🎯 Dark Souls II (2014), Elden Ring: Shadow of the Erdtree (2024)"]},
+ "konami": {g:0, n:1, l:["🎯 Metal Gear Solid V: The Phantom Pain (2015)"]},
+ "valve": {g:0, n:0, l:["🏆 Autre catégorie : meilleur jeu VR/AR pour Half-Life: Alyx (2020)","Aucune nomination au jeu de l’année"]},
+ "square-enix": {g:0, n:2, l:["🎯 Final Fantasy VII Remake (2020), Final Fantasy VII Rebirth (2024)"]},
+ "take-two": {g:0, n:2, l:["🎯 Red Dead Redemption 2 (2018, Rockstar) et The Outer Worlds (2019, publié par Private Division, label de Take-Two à l’époque)","🏆 Spike Video Game Awards : Red Dead Redemption (2010) et GTA V (2013) élus jeu de l’année"]},
+ "blizzard": {g:1, n:2, l:["🏆 Overwatch (2016)","🎯 Hearthstone (2014)"]},
+ "mojang": {g:0, n:0, l:["Aucune nomination au jeu de l’année"]},
+ "riot-games": {g:0, n:0, l:["Aucune nomination au jeu de l’année"]},
+ "hoyoverse": {g:0, n:0, l:["Aucune nomination au jeu de l’année"]},
+ "tencent": {g:0, n:0, l:["Aucune nomination en son nom au jeu de l’année"]}
+};
+
+
+// ---- CLASSEMENT MONDIAL : "Nom|Pays|capitalisation|revenus|bénéfices" (milliards de dollars) ----
+const monde = `Microsoft|États-Unis|3998|346.44|177.58
+Tencent|Chine|485.70|99.65|36.15
+Sony|Japon|160.91|81.33|9.89
+NetEase|Chine|80.90|16.78|5.93
+Nintendo|Japon|65.62|14.46|4.12
+Sea Limited|Singapour|45.79|27.72|2.48
+Take-Two Interactive|États-Unis|39.28|6.68|
+Roblox|États-Unis|33.40|5.89|
+Aristocrat|Australie|27.45|4.16|1.20
+Bandai Namco|Japon|27.42|7.16|0.99
+Konami|Japon|24.85|5.07|1.60
+Unity Software|États-Unis|21.22|2.02|
+Nexon|Japon|14.51|3.29|1.21
+Zhejiang Century Huatong|Chine|14.45|6.42|1.34
+GameStop|États-Unis|12.25|3.55|0.49
+Capcom|Japon|11.53|1.47|0.61
+Kunlun Tech|Chine|7.69|1.65|
+Square Enix|Japon|7.28|2.02|0.39
+Krafton|Corée du Sud|7.27|3.00|0.85
+CD Projekt|Pologne|6.76|0.23|0.16
+International Games System|Taïwan|6.59|0.77|0.45
+Giant Network Group|Chine|6.19|1.22|0.58
+Kingnet Network|Chine|5.55|1.24|0.42
+37 Interactive Entertainment|Chine|5.52|2.17|0.36
+Sega Sammy|Japon|4.50|3.21|0.016
+Kingsoft|Chine|4.42|1.35|0.47
+CyberAgent|Japon|4.33|6.09|0.55
+Entain|Île de Man|4.19|7.08|
+Asmodee Group|Suède|4.04|2.04|0.11
+Koei Tecmo|Japon|3.91|0.58|0.40
+G-bits Network Technology|Chine|3.82|1.05|0.43
+Kadokawa|Japon|3.39|1.83|0.026
+Perfect World Entertainment|Chine|3.32|0.93|0.097
+NCsoft|Corée du Sud|3.07|1.40|0.56
+XD Inc.|Chine|2.70|0.82|0.24
+Netmarble|Corée du Sud|2.21|1.96|0.39
+Embracer Group|Suède|2.09|1.79|
+Tianyu Digital Technology|Chine|2.08|0.28|0.024
+Zhejiang Jinke Tom Culture Industry|Chine|2.05||
+Ourpalm|Chine|2.05||
+Nazara Technologies|Inde|1.80|0.21|
+Happinet|Japon|1.80|2.40|0.068
+Hangzhou Shunwang Technology|Chine|1.79|0.18|0.064
+Mixi|Japon|1.70|1.00|0.086
+YOOZOO Interactive|Chine|1.70|0.21|
+Hacksaw AB|Suède|1.64|0.25|0.21
+DeNA|Japon|1.58|0.97|0.17
+Paradox Interactive|Suède|1.52|0.24|0.019
+Spin Master|Canada|1.50|2.11|
+Pearl Abyss|Corée du Sud|1.47|0.48|0.21
+Sun Corp|Japon|1.45||0.062
+SHIFT UP|Corée du Sud|1.38|0.20|0.16
+Corsair Gaming|États-Unis|1.37|1.45|0.046
+Playtech|Île de Man|1.37|0.89|
+Modern Times Group (MTG)|Suède|1.31|1.29|0.11
+NHN Corp|Corée du Sud|1.17|1.85|0.13
+Kakao Games|Corée du Sud|1.01|0.26|
+Sichuan Xunyou Network Technology|Chine|0.91||0.005
+Playtika|Israël|0.90|2.82|
+GungHo Online Entertainment|Japon|0.83|0.74|0.16
+DoubleUGames|Corée du Sud|0.81|0.54|0.20
+everplay group|Royaume-Uni|0.78|0.22|0.050
+Shenzhen Bingchuan Network|Chine|0.78|0.35|0.013
+Ubisoft|France|0.69|1.61|
+DoubleDown Interactive|États-Unis|0.66|0.38|0.15
+Shen Zhen Shengxunda Technology|Chine|0.61||
+Hangzhou Electronic Soul Network|Chine|0.61||
+NetDragon Websoft|Chine|0.53|0.63|0.030
+Gree|Japon|0.48|0.40|0.048
+Kaiser (China) Culture|Chine|0.47||
+Huya|Chine|0.46|0.99|
+Gravity|Corée du Sud|0.46|0.39|0.070
+Nat Games|Corée du Sud|0.45||
+Bushiroad|Japon|0.45|0.30|0.013
+Soft-World International|Taïwan|0.43|0.22|0.054
+PlayWay|Pologne|0.42||0.030
+Sohu.com|Chine|0.41|0.59|
+IGG|Singapour|0.41|1.67|0.45
+Shenzhen Zqgame|Chine|0.40||
+COLOPL|Japon|0.37|0.18|0.008
+Wemade|Corée du Sud|0.35|0.42|0.032
+GuangZhou Wahlap Technology|Chine|0.33||
+7Road|Chine|0.32||0.011
+Zengame Technology|Chine|0.31|0.22|0.064
+Stillfront Group|Suède|0.31|0.57|
+Akatsuki|Japon|0.30|0.16|0.015
+Com2uS|Corée du Sud|0.29|0.43|0.026
+Huuuge|États-Unis|0.28|0.22|0.084
+Qingci Games|Chine|0.26||0.006
+Neowiz Games|Corée du Sud|0.26|0.29|0.031
+Webzen|Corée du Sud|0.26||0.021
+Boyaa Interactive|Chine|0.25||0.023
+FuRyu|Japon|0.25|0.29|0.026
+Remedy Entertainment|Finlande|0.25||
+Frontier Developments|Royaume-Uni|0.22||0.018
+Gamania Digital|Taïwan|0.20|0.26|
+Marvelous|Japon|0.19|0.20|
+Wayi International Digital Entertainment|Taïwan|0.19||
+Homeland Interactive Technology|Chine|0.18|0.19|0.017
+Digital Bros|Italie|0.16||0.006`.split("\n").map((l, i) => {
+  const [nom, pays, cap, rev, ben] = l.split("|");
+  return { rang: i + 1, nom, pays, cap: +cap, rev: rev === "" ? null : +rev, ben: ben === "" ? null : +ben };
+});
+
+// ---- LICENCE PHARE des entreprises du classement mondial (indicatif ; absent = non renseigné) ----
+const phares = {
+"Microsoft":"Minecraft","Tencent":"Honor of Kings","Sony":"God of War","NetEase":"Fantasy Westward Journey","Nintendo":"Mario",
+"Sea Limited":"Free Fire","Take-Two Interactive":"Grand Theft Auto","Roblox":"Roblox","Aristocrat":"Machines à sous (pas un jeu vidéo)",
+"Bandai Namco":"Pac-Man","Konami":"Metal Gear","Unity Software":"Moteur de jeu (pas un jeu)","Nexon":"MapleStory",
+"GameStop":"Revendeur de jeux (pas un éditeur)","Capcom":"Resident Evil","Square Enix":"Final Fantasy","Krafton":"PUBG",
+"CD Projekt":"The Witcher","Giant Network Group":"ZT Online","Sega Sammy":"Sonic","CyberAgent":"Uma Musume Pretty Derby",
+"Entain":"Paris sportifs (pas un jeu vidéo)","Koei Tecmo":"Dynasty Warriors","Kadokawa":"Elden Ring",
+"Perfect World Entertainment":"Perfect World","NCsoft":"Lineage","Mixi":"Monster Strike","Spin Master":"Jouets (pas un jeu vidéo)",
+"Pearl Abyss":"Black Desert","SHIFT UP":"Stellar Blade (et NIKKE)","Corsair Gaming":"Matériel gaming (pas un jeu)",
+"Playtech":"Casinos en ligne (pas un jeu vidéo)","Modern Times Group (MTG)":"Raid: Shadow Legends","Kakao Games":"Odin: Valhalla Rising",
+"Playtika":"Slotomania","GungHo Online Entertainment":"Puzzle & Dragons","DoubleUGames":"DoubleU Casino","everplay group":"Worms",
+"Ubisoft":"Assassin’s Creed","DoubleDown Interactive":"DoubleDown Casino","NetDragon Websoft":"Conquer Online","Huya":"Streaming de jeux (pas un jeu)",
+"Gravity":"Ragnarok","Bushiroad":"Cardfight!! Vanguard","IGG":"Lords Mobile","COLOPL":"White Cat Project","Wemade":"Legend of Mir",
+"Com2uS":"Summoners War","Huuuge":"Huuuge Casino","Webzen":"MU","Remedy Entertainment":"Control","Frontier Developments":"Elite Dangerous"
+};
+
+// ---- PRÉSENTATIONS affichées au clic sur le nom ou à la recherche (clé = nom du fichier image) ----
+const presentations = {
+"nintendo":"Entreprise japonaise fondée en 1889 à Kyoto, d’abord pour fabriquer des cartes à jouer. Elle est devenue l’un des géants du jeu vidéo avec ses consoles (NES, Game Boy, Switch) et ses licences Mario et Zelda, ainsi que Pokémon, né sur ses consoles.",
+"playstation":"Branche jeux vidéo du groupe japonais Sony, lancée avec la première PlayStation en 1994. Elle édite des jeux comme God of War, The Last of Us et Spider-Man.",
+"xbox":"Branche jeux vidéo de Microsoft, lancée avec la console Xbox en 2001. Elle possède des studios et des licences comme Halo, Forza, Bethesda (depuis 2021), Mojang (2014) et Activision Blizzard (2023).",
+"rockstar":"Studio fondé en 1998 à New York, filiale de Take-Two. Il est surtout connu pour les séries Grand Theft Auto et Red Dead Redemption, deux références du jeu en monde ouvert.",
+"ea":"Éditeur américain fondé en 1982 par Trip Hawkins. Il est connu pour ses jeux de sport EA Sports (dont EA Sports FC, ex-FIFA), ainsi que The Sims, Battlefield et Apex Legends.",
+"ubisoft":"Éditeur français fondé en 1986 en Bretagne par les frères Guillemot. Il est connu pour Assassin’s Creed, Far Cry, Rayman et Just Dance.",
+"sega":"Entreprise japonaise dont les origines remontent à 1960. Elle a fabriqué des bornes d’arcade, puis des consoles comme la Mega Drive et la Dreamcast, avant d’arrêter les consoles en 2001 pour se concentrer sur les jeux : Sonic, Yakuza, Persona.",
+"epic-games":"Studio américain fondé en 1991 par Tim Sweeney. Il est connu pour Fortnite, pour le moteur de jeu Unreal Engine et pour sa boutique en ligne, l’Epic Games Store.",
+"activision":"Éditeur américain fondé en 1979 par d’anciens développeurs d’Atari, souvent présenté comme le premier éditeur indépendant de jeux. Il est surtout connu pour Call of Duty et Crash Bandicoot, et appartient à Microsoft depuis 2023.",
+"capcom":"Entreprise japonaise fondée en 1979 à Osaka. Elle a créé Street Fighter, Resident Evil, Monster Hunter, Devil May Cry et Mega Man.",
+"bandai-namco":"Groupe japonais né en 2005 de la fusion de Bandai (jouets) et de Namco (jeux d’arcade). Il édite des jeux comme Tekken et Dragon Ball, et possède Pac-Man, créé par Namco en 1980.",
+"konami":"Entreprise japonaise fondée en 1969. Elle est connue pour Metal Gear, Silent Hill, Castlevania et eFootball.",
+"valve":"Studio américain privé fondé en 1996 par d’anciens employés de Microsoft. Il a créé Half-Life, Counter-Strike, Portal et Dota 2, et gère la plateforme de vente de jeux Steam.",
+"square-enix":"Entreprise japonaise née en 2003 de la fusion de Square et d’Enix. Elle est célèbre pour ses jeux de rôle : Final Fantasy, Dragon Quest et Kingdom Hearts.",
+"take-two":"Éditeur américain fondé en 1993. Il possède Rockstar Games (GTA, Red Dead Redemption) et le label 2K (NBA 2K, Civilization, BioShock).",
+"blizzard":"Studio américain fondé en 1991, connu pour Warcraft, Diablo, StarCraft et Overwatch. Il appartient à Microsoft depuis le rachat d’Activision Blizzard en 2023.",
+"mojang":"Studio suédois fondé en 2009 par Markus Persson. Il a créé Minecraft, racheté par Microsoft en 2014 et devenu l’un des jeux les plus vendus de l’histoire.",
+"riot-games":"Studio américain fondé en 2006, créateur de League of Legends (2009) et de Valorant (2020). Il appartient à Tencent, qui en a pris le contrôle total en 2015.",
+"hoyoverse":"Marque internationale du studio chinois miHoYo, fondé en 2011 à Shanghai. Elle est connue pour Genshin Impact (2020) et Honkai: Star Rail.",
+"tencent":"Géant chinois d’internet fondé en 1998. Sa branche jeux a lancé Honor of Kings, et le groupe possède Riot Games et détient des participations dans de nombreux studios."
+};
+
+// ---- Fonctions ----
+const lookup = nom => monde.find(x => x.nom === nom) || null;
+const equipe = top20.map((t, i) => ({ rang: i + 1, n: t[0], p: t[1], c: t[2], ph: t[3], j: t[4].split(", "), m: t[5], e: t[6], i: t[7], note: t[9], f: t[8] ? lookup(t[8]) : null }));
+
+const corps = document.getElementById("corps"), tbMonde = document.getElementById("monde");
+const vide = document.getElementById("vide"), vide2 = document.getElementById("vide2");
+const recherche = document.getElementById("recherche");
+const q = () => recherche.value.trim().toLowerCase();
+let premier = true, ouvert = null, favoris = [];
+try { favoris = JSON.parse(localStorage.getItem("favoris") || "[]"); } catch (e) {}
+const sauver = () => { try { localStorage.setItem("favoris", JSON.stringify(favoris)); } catch (e) {} };
+
+function argent(n) {
+  if (n === null || n === undefined) return "—";
+  if (n >= 1000) return (n / 1000).toFixed(2).replace(".", ",") + " T$";
+  if (n >= 1) return n.toFixed(2).replace(".", ",") + " Md$";
+  return Math.round(n * 1000) + " M$";
+}
+function el(tag, cls, txt) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (txt !== undefined) e.textContent = txt;
+  return e;
+}
+
+// ---- Classement par clic sur le titre d'une colonne ----
+// k = clé de tri, t = titre, c = classes. sens : 1 = croissant (A→Z, 1→20), -1 = décroissant (le plus grand d'abord)
+const st20 = { k: "rang", d: 1 }, stM = { k: "rang", d: 1 };
+const sensDefaut = { cap: -1, rev: -1, ben: -1, prix: -1 };
+const col20 = [
+  { t: "" }, { k: "rang", t: "Popularité", c: "num" }, { k: "mascotte", t: "Mascotte" }, { k: "nom", t: "Entreprise" },
+  { k: "pays", t: "Pays" }, { k: "jeu", t: "Licence phare" }, { k: "cap", t: "Capitalisation", c: "r col-x" },
+  { k: "rev", t: "Revenus", c: "r col-x" }, { k: "ben", t: "Bénéfices", c: "r col-x" }, { k: "prix", t: "Game Awards", c: "col-x" }
+];
+const colM = [
+  { k: "rang", t: "Rang", c: "num" }, { k: "nom", t: "Nom" }, { k: "pays", t: "Pays" }, { k: "jeu", t: "Licence phare", c: "col-x" },
+  { k: "cap", t: "Capitalisation", c: "r" }, { k: "rev", t: "Revenus", c: "r col-x" }, { k: "ben", t: "Bénéfices", c: "r col-x" }
+];
+
+// Les valeurs absentes passent toujours en dernier, quel que soit le sens.
+function comparateur(st, val) {
+  return (a, b) => {
+    const x = val(a, st.k), y = val(b, st.k), mx = x === null || x === undefined, my = y === null || y === undefined;
+    if (mx || my) return mx && my ? a.rang - b.rang : mx ? 1 : -1;
+    const c = typeof x === "string" ? x.localeCompare(y, "fr") : x - y;
+    return c * st.d || a.rang - b.rang;
+  };
+}
+function majEntetes(cols, st) {
+  cols.forEach(c => {
+    if (!c.k) return;
+    const on = st.k === c.k;
+    c.b.className = "th" + (on ? " on" : "");
+    c.b.textContent = c.t + (on ? (st.d === 1 ? " ▲" : " ▼") : "");
+    c.th.setAttribute("aria-sort", on ? (st.d === 1 ? "ascending" : "descending") : "none");
+  });
+}
+function entetes(tr, cols, st, redessiner) {
+  cols.forEach(c => {
+    const th = el("th", c.c || "");
+    if (c.k) {
+      const b = el("button", "th", c.t);
+      b.onclick = () => {
+        if (st.k === c.k) st.d = -st.d; else { st.k = c.k; st.d = sensDefaut[c.k] || 1; }
+        redessiner();
+      };
+      c.b = b; c.th = th; th.appendChild(b);
+    }
+    tr.appendChild(th);
+  });
+}
+
+function afficher20() {
+  corps.replaceChildren();
+  const r = e => recompenses[e.i];
+  const val = (e, k) => k === "rang" ? e.rang : k === "nom" ? e.n : k === "pays" ? e.p : k === "jeu" ? e.ph :
+    k === "mascotte" ? (e.m === "Aucune mascotte" ? null : e.m) :
+    k === "prix" ? (r(e) ? r(e).g * 100 + r(e).n : null) : (e.f ? e.f[k] : null);
+  const liste = equipe.filter(e => [e.n, e.ph, e.m, e.j.join(" ")].some(t => t.toLowerCase().includes(q())));
+  liste.sort(comparateur(st20, val));
+  liste.forEach((e, i) => {
+    const tr = el("tr");
+    tr.style.setProperty("--c", e.c);
+    if (premier) { tr.classList.add("arrive"); tr.style.animationDelay = i * 50 + "ms"; }
+
+    const tdS = el("td"), fav = favoris.includes(e.n), star = el("button", "star", "★");
+    star.setAttribute("aria-pressed", fav);
+    star.setAttribute("aria-label", "Ajouter " + e.n + " aux favoris");
+    star.onclick = () => { favoris = fav ? favoris.filter(n => n !== e.n) : [...favoris, e.n]; sauver(); afficher20(); };
+    tdS.appendChild(star);
+
+    const tdM = el("td", "mascot"), cercle = el("div", "mascot-img"), img = document.createElement("img");
+    img.alt = "Mascotte : " + e.m; img.src = "images/" + e.i + ".png";
+    img.onerror = () => { cercle.textContent = e.e; };
+    cercle.appendChild(img);
+    tdM.append(cercle, el("small", "", e.m));
+
+    const tdN = el("td");
+    const ouvertIci = ouvert === e.i || (liste.length === 1 && ouvert !== "x");
+    const nomBtn = el("button", "lien", e.n);
+    nomBtn.title = "Clique pour lire la présentation";
+    nomBtn.setAttribute("aria-expanded", ouvertIci);
+    nomBtn.onclick = () => { ouvert = ouvertIci ? "x" : e.i; afficher20(); };
+    tdN.append(nomBtn);
+    if (e.note) tdN.appendChild(el("div", "sub", e.note));
+
+    const tdL = el("td"), jeux = el("div", "games");
+    e.j.forEach(j => jeux.appendChild(el("span", "", j)));
+    tdL.append(el("div", "phare", e.ph), jeux);
+
+    const tdA = el("td", "col-x");
+    if (r(e)) {
+      const det = document.createElement("details");
+      det.appendChild(el("summary", "", "🏆 " + r(e).g + " · 🎯 " + r(e).n));
+      const ul = el("ul", "award");
+      r(e).l.forEach(t => ul.appendChild(el("li", "", t)));
+      det.appendChild(ul); tdA.appendChild(det);
+    } else tdA.textContent = "—";
+
+    tr.append(tdS, el("td", "num", e.rang), tdM, tdN, el("td", "", e.p), tdL,
+      el("td", "r col-x fig", argent(e.f ? e.f.cap : null)), el("td", "r col-x fig", argent(e.f ? e.f.rev : null)),
+      el("td", "r col-x fig", argent(e.f ? e.f.ben : null)), tdA);
+    corps.appendChild(tr);
+    if (ouvertIci) {
+      const fr = el("tr", "fiche"), td = el("td");
+      fr.style.setProperty("--c", e.c);
+      td.colSpan = 10;
+      td.append(el("div", "lab", "À propos de " + e.n), el("p", "", presentations[e.i] || ""));
+      fr.appendChild(td); corps.appendChild(fr);
+    }
+  });
+  vide.hidden = liste.length !== 0;
+  majEntetes(col20, st20);
+}
+
+function afficherMonde() {
+  const licence = e => { const l = phares[e.nom]; return l && !l.includes("(pas un") ? l : null; };
+  const val = (e, k) => k === "rang" ? e.rang : k === "nom" ? e.nom : k === "pays" ? e.pays : k === "jeu" ? licence(e) : e[k];
+  const liste = monde.filter(e => e.nom.toLowerCase().includes(q()) || e.pays.toLowerCase().includes(q()));
+  liste.sort(comparateur(stM, val));
+  tbMonde.replaceChildren();
+  liste.forEach(e => {
+    const tr = el("tr");
+    tr.append(el("td", "num", e.rang), el("td", "name", e.nom), el("td", "", e.pays), el("td", "col-x", phares[e.nom] || "—"),
+      el("td", "r", argent(e.cap)), el("td", "r col-x", argent(e.rev)), el("td", "r col-x", argent(e.ben)));
+    tbMonde.appendChild(tr);
+  });
+  vide2.hidden = liste.length !== 0;
+  majEntetes(colM, stM);
+}
+
+entetes(document.getElementById("th20"), col20, st20, afficher20);
+entetes(document.getElementById("thm"), colM, stM, afficherMonde);
+recherche.oninput = () => { ouvert = null; afficher20(); afficherMonde(); };
+afficher20(); afficherMonde(); premier = false;
+
+// ---- Musique rétro : composée en direct dans le navigateur (aucun fichier audio) ----
+const btnMusique = document.getElementById("musique");
+let audio = null, sortie = null, bruit = null, minuteur = null, pas = 0, prochain = 0, joue = false;
+const croche = 60 / 132 / 2;
+const racines = [45, 41, 48, 43], motif = [0, 0, 12, 0, 0, 0, 12, 7];
+const melodie = [69,72,76,72,69,72,76,81, 72,77,81,77,72,77,81,84, 67,72,76,72,67,72,76,79, 71,74,79,74,71,74,79,83];
+const hz = m => 440 * Math.pow(2, (m - 69) / 12);
+function note(type, f, vol, t, dur) {
+  const o = audio.createOscillator(), g = audio.createGain();
+  o.type = type; o.frequency.value = f;
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g); g.connect(sortie); o.start(t); o.stop(t + dur);
+}
+function tic(t) {
+  const s = audio.createBufferSource(), g = audio.createGain();
+  s.buffer = bruit; g.gain.value = 0.05; s.connect(g); g.connect(sortie); s.start(t);
+}
+function planifier() {
+  while (prochain < audio.currentTime + 0.2) {
+    const mesure = Math.floor(pas / 8), k = pas % 8;
+    note("triangle", hz(racines[mesure] + motif[k]), 0.22, prochain, croche * 0.9);
+    note("square", hz(melodie[pas]), 0.06, prochain, croche * 0.8);
+    if (k % 2 === 1) tic(prochain);
+    prochain += croche; pas = (pas + 1) % 32;
+  }
+}
+btnMusique.onclick = () => {
+  if (!audio) {
+    audio = new (window.AudioContext || window.webkitAudioContext)();
+    sortie = audio.createGain(); sortie.gain.value = 0.6; sortie.connect(audio.destination);
+    const n = Math.floor(audio.sampleRate * 0.04), d = (bruit = audio.createBuffer(1, n, audio.sampleRate)).getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+  }
+  joue = !joue;
+  if (joue) { audio.resume(); prochain = audio.currentTime + 0.05; pas = 0; minuteur = setInterval(planifier, 50); }
+  else { clearInterval(minuteur); audio.suspend(); }
+  btnMusique.setAttribute("aria-pressed", joue);
+  btnMusique.textContent = joue ? "♪ MUSIQUE : ON" : "♪ MUSIQUE : OFF";
+};
+document.addEventListener("visibilitychange", () => {
+  if (!audio || !joue) return;
+  if (document.hidden) audio.suspend(); else audio.resume();
+});
+</script>
+</body>
+</html>
