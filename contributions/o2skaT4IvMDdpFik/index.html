@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attrape le carré</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="game">
+
+        <h1>🎯 Attrape le carré</h1>
+
+        <p class="description">
+            Clique sur le carré le plus rapidement possible !
+        </p>
+
+        <div class="stats">
+            <div>
+                <span>Score</span>
+                <strong id="score">0</strong>
+            </div>
+
+            <div>
+                <span>Temps</span>
+                <strong><span id="time">30</span>s</strong>
+            </div>
+        </div>
+
+        <div id="gameArea">
+            <button id="target"></button>
+
+            <div id="message">
+                <h2>Prêt ? 🎮</h2>
+                <button id="start">COMMENCER</button>
+            </div>
+        </div>
+
+        <p id="result"></p>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
